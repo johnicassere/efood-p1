@@ -40,7 +40,7 @@ export const HeaderImg = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
     opacity: .9;
-    width: 1366px;
+    width: 100%;
     height: 280px;
     display: flex;
     flex-direction: column;
