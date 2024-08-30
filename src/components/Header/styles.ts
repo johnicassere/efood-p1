@@ -49,7 +49,8 @@ export const HeaderImg = styled.div`
     justify-content: space-around;
    
     div{
-        margin-left: 170px;
+        width: 1024px;
+        margin: 0 auto;
     }
     
 `

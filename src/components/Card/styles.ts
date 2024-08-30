@@ -1,7 +1,7 @@
+import { Restaurantes } from './../../types.d';
 import styled from "styled-components";
 import image from '../../assets/images/imagem.png'
 import { cores } from "../../styles";
-
 
 
 export const CardContainer = styled.div`
@@ -98,4 +98,14 @@ div{
 img{
     margin: 8px;
 }
+`
+
+export const Destaque = styled.div`
+    background-image: url(${image});
+    width: 100%;
+    height: 217px;
+    display: flex;
+    flex: row;
+    justify-content: flex-end; 
+
 `
