@@ -1,10 +1,10 @@
-import { ContainerProduto } from "./styles"
+import * as S from "./styles"
 import image from '../../assets/images/image3.png'
 
 const Produto = () => {
     return(
        <>
-        <ContainerProduto>
+        <S.ContainerProduto>
             <a href="/"><img src={image} alt="Pizza" /></a>
             <h2>Pizza Marguerita</h2>
             <p>
@@ -13,8 +13,8 @@ const Produto = () => {
             </p>
            <div className="adicionar">
                 <a href="/">Adicionar ao carrinho</a>
-           </div> 
-        </ContainerProduto>
+           </div>
+        </S.ContainerProduto>
        </>
     )
 }

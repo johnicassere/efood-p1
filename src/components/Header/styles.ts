@@ -33,6 +33,8 @@ export const HeaderOpacit = styled.div`
 background: rgba(0, 0, 0, 0.5);
 border: 1px solid transparent;
 margin-bottom: 56px;
+
+
 `
 
 export const HeaderImg = styled.div`
@@ -45,7 +47,7 @@ export const HeaderImg = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    
+   
     div{
         margin-left: 170px;
     }

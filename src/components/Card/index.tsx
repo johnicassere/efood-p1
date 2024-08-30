@@ -34,10 +34,8 @@ const Card = ({ destaque = false }:Props) => {
                             </div>
                         </S.ContainerPontu>
                     <p>
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusantium sunt, 
-                        ut praesentium cumque itaque debitis voluptas repellat quia eaque expedita 
-                        recusandae! Distinctio, voluptas. Minima distinctio repellat perspiciatis, 
-                        architecto eveniet accusamus.
+                    A clássica Marguerita: molho de tomate suculento, mussarela derretida, 
+                    manjericão fresco e um toque de azeite. Sabor e simplicidade!
                     </p>
                     <button type='submit'>Saiba Mais</button>
                 </div>

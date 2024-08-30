@@ -10,6 +10,7 @@ display:flex;
 flex-direction: column;
 align-items: center;
 
+
 img{
     width: 125px;
    margin-top: 40px;

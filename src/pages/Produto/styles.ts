@@ -10,7 +10,6 @@ background-color: ${cores.backGroundCard};
 color: ${cores.textColorPerfil};
 border: 4px solid ${cores.backGroundCard};
 
-
 img{
     width: 100%;
 }
@@ -31,7 +30,7 @@ p{
 }
 
 .adicionar{
-    background-color: ${cores.colorBackGround};
+    background-color: ${cores.textColorPerfil};
     width: 304px;
     height: 24px;
     text-align: center;
@@ -46,5 +45,4 @@ a{
     cursor: pointer;
 }
 `
-
 

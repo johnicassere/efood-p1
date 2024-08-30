@@ -1,5 +1,4 @@
 import { BrowserRouter} from 'react-router-dom'
-import Home from "./pages/Home";
 import { Globalcss, Container } from "./styles"; 
 import Rotas from './routes';
 

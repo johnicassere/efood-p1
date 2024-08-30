@@ -6,7 +6,8 @@ import * as S from './styles'
 
 const Perfil = () => {
     return(
-        <S.Modal className="">
+        <>
+        
         <Header/>
         <S.ConatinerPerfil>
         <Produto/>
@@ -17,7 +18,7 @@ const Perfil = () => {
         <Produto/>
         </S.ConatinerPerfil>
         <Footer/>
-        </S.Modal>
+        </>
     )
 }
 
