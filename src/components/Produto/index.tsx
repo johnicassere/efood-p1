@@ -1,51 +1,47 @@
+import { useState } from "react"
 import * as S from "./styles"
-import image from '../../assets/images/image3.png'
-import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import { Restaurantes } from "../../types"
 
 type Props = {
+    id?: number
+    titulo?: string
+    capa?: string
     descricao?: string
+    openCart?: () => boolean | void 
 }
 
-const Produto = ({ descricao }: Props) => {
 
-    const [restaurantes, setRestaurantes] = useState<Restaurantes[]>([])
 
-    const getDescription = (text: string) => {
-        if(text.length > 132){
-            return text.slice(0, 129) + '...'
+
+const Produto = ({titulo, capa, descricao, openCart }: Props) => {
+    const [openOver, setOpenOver] = useState(false)
+  
+    const openOverlay = () => {
+        if(openOver === false){
+            setOpenOver(true)
+            console.log(openCart)   
+        }else{
+            setOpenOver(false)
         }
-        return text
     }
 
-    let description = 'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-    
-    
-    useEffect(() => {
-
-        fetch('https://fake-api-tau.vercel.app/api/efood/restaurantes')
-        .then(res => res.json())
-        .then(res => setRestaurantes(res))
-        .catch(error => console.log(error))
-        
-    },[])
-
-        
+      
     return(
        <>
         <S.ContainerProduto>
             <div>
-                <a href="/"><img src={image} alt="Pizza" /></a>
+                <a href="/cart"><img src={capa} alt={titulo} /></a>
             </div>
-            <h2>Pizza Marguerita</h2>
+                <h2>{titulo}</h2>
             <p>
-                {getDescription(description)}
+                {descricao}
             </p>
-           <div className="adicionar">
-                <a href="/">Adicionar ao carrinho</a>
-           </div>
+             <div className="adicionar">
+                <button onClick={openOverlay} >Adicionar ao carrinho</button>
+             </div>  
         </S.ContainerProduto>
-       </>
+        </>
     )
 }
 

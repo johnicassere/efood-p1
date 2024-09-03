@@ -44,7 +44,6 @@ const Cart = () => {
                         </div>
 
                 </S.SideCart>
-
                 
        </S.CartContainer>
     )
