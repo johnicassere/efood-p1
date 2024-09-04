@@ -1,44 +1,32 @@
-import { useState } from "react"
 import * as S from "./styles"
 import { Link } from "react-router-dom"
-import { Restaurantes } from "../../types"
+
+
 
 type Props = {
     id?: number
-    titulo?: string
-    capa?: string
+    titulo: string
+    capa: string
     descricao?: string
-    openCart?: () => boolean | void 
+    preco?: number
 }
 
 
-
-
-const Produto = ({titulo, capa, descricao, openCart }: Props) => {
-    const [openOver, setOpenOver] = useState(false)
+const Produto = ({titulo, capa, descricao }: Props) => {
   
-    const openOverlay = () => {
-        if(openOver === false){
-            setOpenOver(true)
-            console.log(openCart)   
-        }else{
-            setOpenOver(false)
-        }
-    }
-
-      
+ 
     return(
        <>
-        <S.ContainerProduto>
+            <S.ContainerProduto>
             <div>
-                <a href="/cart"><img src={capa} alt={titulo} /></a>
+                <Link to={`/modal/${titulo}`} ><img src={capa} alt={titulo} /></Link>
             </div>
                 <h2>{titulo}</h2>
             <p>
                 {descricao}
             </p>
              <div className="adicionar">
-                <button onClick={openOverlay} >Adicionar ao carrinho</button>
+                <Link to={`/modal/${titulo}`} className="link-modal">Adicionar ao carrinho</Link>
              </div>  
         </S.ContainerProduto>
         </>
@@ -47,3 +35,4 @@ const Produto = ({titulo, capa, descricao, openCart }: Props) => {
 
 
 export default Produto
+

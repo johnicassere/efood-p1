@@ -9,7 +9,6 @@ function App() {
    <Container className="App">
       <Rotas/>
     </Container>
-   
    </BrowserRouter>
   );
 }
