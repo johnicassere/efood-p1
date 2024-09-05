@@ -2,29 +2,16 @@ import styled from "styled-components";
 import { cores } from "../../styles";
 
 
-export const Overlay = styled.div`
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-color: #000;
-opacity: 0.7;
-`
-
-
 export const ContainerProduto = styled.div`
 max-width: 320px;
 height: 338px;
 background-color: ${cores.backGroundCard};
 color: ${cores.textColorPerfil};
 border: 4px solid ${cores.backGroundCard};
+z-index: 0;
 
-&.is-open{
-    display: flex;
-}
 
-.div{
+div{
     max-width: 304px;
     height: 167px;
     margin: 8px;
@@ -49,6 +36,7 @@ p{
     font-weight: 400;
     line-height: 22px;
     margin: 8px;
+    
 }
 
 .adicionar{
@@ -57,14 +45,19 @@ p{
     height: 24px;
     text-align: center;
     margin: 0 auto;
+    
 }
 
-a{
+.link-modal{
     color: ${cores.backGroundCard};
+    background-color: ${cores.textColorPerfil};
+    border: none;
     font-size: 14px;
     font-weight: 700;
     line-height: 16px;
     cursor: pointer;
 }
 `
+
+
 

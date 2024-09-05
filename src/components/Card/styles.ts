@@ -1,4 +1,3 @@
-import { Restaurantes } from './../../types.d';
 import styled from "styled-components";
 import image from '../../assets/images/imagem.png'
 import { cores } from "../../styles";
@@ -100,8 +99,12 @@ img{
 }
 `
 
-export const Destaque = styled.div`
-    background-image: url(${image});
+type CapaProps = {
+    capa?: string
+}
+
+export const Destaque = styled.div<CapaProps>`
+    background-image: url(${(props) => props.capa});
     width: 100%;
     height: 217px;
     display: flex;

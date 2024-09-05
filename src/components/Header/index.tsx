@@ -3,6 +3,7 @@ import logo from '../../assets/images/logo.png'
 import * as S from "./styles"
 
 const Header = () => {
+
     return(
         <>
         <S.HeaderBar>

@@ -1,53 +1,37 @@
 import * as S from "./styles"
-import image from '../../assets/images/image3.png'
-import { useEffect, useState } from "react"
-import { Restaurantes } from "../../types"
+import { Link } from "react-router-dom"
+
 
 type Props = {
+    id?: number
+    titulo: string
+    capa: string
     descricao?: string
+    preco?: number
 }
 
-const Produto = ({ descricao }: Props) => {
 
-    const [restaurantes, setRestaurantes] = useState<Restaurantes[]>([])
-
-    const getDescription = (text: string) => {
-        if(text.length > 132){
-            return text.slice(0, 129) + '...'
-        }
-        return text
-    }
-
-    let description = 'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-    
-    
-    useEffect(() => {
-
-        fetch('https://fake-api-tau.vercel.app/api/efood/restaurantes')
-        .then(res => res.json())
-        .then(res => setRestaurantes(res))
-        .catch(error => console.log(error))
-        
-    },[])
-
-        
+const Produto = ({titulo, capa, descricao, id }: Props) => {
+  
+ 
     return(
        <>
-        <S.ContainerProduto>
+            <S.ContainerProduto>
             <div>
-                <a href="/"><img src={image} alt="Pizza" /></a>
+                <Link to={`/modal/${id}`} ><img src={capa} alt={titulo} /></Link>
             </div>
-            <h2>Pizza Marguerita</h2>
+                <h2>{titulo}</h2>
             <p>
-                {getDescription(description)}
+                {descricao}
             </p>
-           <div className="adicionar">
-                <a href="/">Adicionar ao carrinho</a>
-           </div>
+             <div className="adicionar">
+                <Link to={`/modal/${id}`} className="link-modal">Adicionar ao carrinho</Link>
+             </div>  
         </S.ContainerProduto>
-       </>
+        </>
     )
 }
 
 
 export default Produto
+
