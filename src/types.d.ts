@@ -1,8 +1,8 @@
-export type Cardapio = {
+export interface Cardapio  {
     id?: number
     nome?: string
     foto?: string
-    preco?: string
+    preco?: number
     descricao?: string
     porcao?: string
     open?: boolean
@@ -17,5 +17,5 @@ export type Restaurantes = {
     avaliacao?: string
     descricao: string
     capa?: string
-    cardapio?: string[]
+    cardapio?: Cardapio[]
 }

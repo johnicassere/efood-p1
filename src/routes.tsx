@@ -5,15 +5,14 @@ import Cart from './components/Cart'
 import Modal from './components/Modal'
 
 
+const Rotas = () => {
 
-const Rotas = () => (
-
-    <Routes>
+    return(
+        <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/perfil' element={<Perfil/>}/>
         <Route path='/cart' element={<Cart/>}/>
-        <Route path='/modal/:id' element={<Modal/>}/>
-    </Routes>
-)
-
+        <Route path='/modal/:id' element={<Modal />}/></Routes>
+    )
+}
 export default Rotas

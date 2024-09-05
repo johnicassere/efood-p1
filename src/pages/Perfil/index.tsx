@@ -8,12 +8,10 @@ import { Restaurantes } from "../../types"
 import * as S from './styles'
 
 
-
 const Perfil = () => {
     let description = 'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
     const [restaurantes, setRestaurantes] = useState<Restaurantes[]>([])
-    
-
+   
     const getDescription = (text: string) => {
         if(text.length > 138){
             return text.slice(0, 138) + '...'
@@ -30,8 +28,6 @@ const Perfil = () => {
         .catch(error => console.log(error))
     },[])
     
-
-
     return(
       <>
     
@@ -40,11 +36,12 @@ const Perfil = () => {
             <>
             {restaurantes.map((item) => (
                 <Produto
+                key={item.id}
                 id={item.id}
                 titulo={item.titulo!}
                 capa={item.capa!}
                 descricao={getDescription(item.descricao)}
-                />
+                />  
             ))}
             </>
         </S.ConatinerPerfil>

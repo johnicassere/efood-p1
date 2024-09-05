@@ -1,31 +1,24 @@
-import { useEffect, useState } from "react";
-import * as S from './styles'
-import iconclose from '../../assets/images/close.png'
 import { Link, useParams } from "react-router-dom";
-import Perfil from "../../pages/Perfil";
-import { Restaurantes } from "../../types";
+import { useEffect, useState } from "react";
+import { Cardapio } from "../../types";
 import axios from "axios";
-
-
+import iconclose from '../../assets/images/close.png'
+import Perfil from "../../pages/Perfil";
+import * as S from './styles'
 
 
 const Modal = () => {
-const [modal, setModal] = useState<boolean>(false)
-const [restaurantes, setRestaurantes] = useState<Restaurantes[]>([])
-const {id, nome, foto, descricao, preco, porcao} = useParams()
-
-console.log(id, 'log id');
+const [cardapio, setCardapio] = useState<Cardapio>()
+const {id} = useParams()
 
 
 useEffect(() => {
-    axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${nome}`)
-    .then(res => setRestaurantes(res.data))
+    axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
+     .then(res => setCardapio(res.data.cardapio[0]))
     .catch(error => console.log(error))
     
 },[])
 
-    console.log(restaurantes);
-    
     return(
 
         <>
@@ -34,31 +27,29 @@ useEffect(() => {
         </S.DivOver>
         <S.ContainerModal >
             <div className="modal">
-                <S.Modal className="overlay" onClick={() => setModal(!modal)}>
+                <S.Modal className="overlay">
                     <div className="modal-content">
                             <Link className="icon-close" to={'/perfil'}><img style={{width:'16px', height:'16px'}} src={iconclose} alt="close" /></Link>
                         
                         <div className="capa-item">
-                                <img src={foto} alt={''} />
+                                <img src={cardapio?.foto} alt={''} />
                             <div className="descricao">
-                            <h2>{nome}</h2>
+                            <h2>{cardapio?.nome}</h2>
                             <p>
-                            {descricao}
+                            {cardapio?.descricao}
+                            {cardapio?.descricao}
                             </p>
                             <br />
                             <p>
-                            Serve: de 2 a 3 pessoas
-                            {porcao}
+                            {cardapio?.porcao}
                             </p>
                                 <div>
-                                    <Link to={'/cart'} className="close-modal" ><button>adicionar ao carrinho - R${preco}69,90</button></Link>
+                                    <Link to={'/cart'} className="close-modal" ><button>adicionar ao carrinho - R${cardapio?.preco}</button></Link>
                                    
                                 </div>
                             </div>
 
                         </div>
-                 
-    
                 </div>
             </S.Modal>
         </div> 
