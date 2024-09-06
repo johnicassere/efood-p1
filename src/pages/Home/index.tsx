@@ -1,42 +1,35 @@
-import { useEffect, useState } from "react"
+import { useGetFeaturedRestaurantesQuery } from '../../services/api'
+import { ContainerHome } from "./styles"
 import Card from "../../components/Card"
 import Footer from "../../components/Footer"
 import Hero from "../../components/Hero"
-import ProductList from "../../components/ProductList"
-import { ContainerHome } from "./styles"
-import { Restaurantes } from "../../types"
+import { useParams } from 'react-router-dom'
+
 
 const Home = () => {
-    const [restaurantes, setRestaurantes] = useState<Restaurantes[]>([])
-
-    useEffect(() => {
-        fetch('https://fake-api-tau.vercel.app/api/efood/restaurantes')
-        .then(res => res.json())
-        .then(json => {
-            setRestaurantes(json);     
-        })
-        .catch(error => console.log(error))
-        
-    },[])
+    const {data} = useGetFeaturedRestaurantesQuery()
+    const {id} = useParams() 
     
+ if(!data){
+    return <h3 style={{textAlign:'center'}}>Carregando...</h3>
+ }
+
     return (
        <>
         <Hero/>
         <ContainerHome>
-            {restaurantes.map((item) => (
+            {data?.map((item) => (
                 <Card
-                key={item.id} 
+                key={item.id}
                 id={item.id}
                 destacado={item.destacado}
                 titulo={item.titulo} 
                 avaliacao={item.avaliacao}
                 capa={item.capa}
-                descricao={item.descricao}
+                descricao={item.descricao.padEnd(323)}
                 tipo={item.tipo}
-                />
+                /> 
             ))}
-
-            <ProductList/>
         </ContainerHome>
         <Footer/>
        </>

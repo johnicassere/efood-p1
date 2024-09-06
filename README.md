@@ -54,7 +54,5 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ``npm install --save typescript @types/node @types/react @types/react-dom @types/jest``
 
-``npm install --save-dev react-modal``
-
-``npm install --save-dev @types/react-modal``
+``npm install --save @reduxjs/toolkit react-redux``
 

@@ -6,19 +6,23 @@ import iconclose from '../../assets/images/close.png'
 import Perfil from "../../pages/Perfil";
 import * as S from './styles'
 
+import { useGetCardapioModalQuery } from '../../services/api'
+
 
 const Modal = () => {
-const [cardapio, setCardapio] = useState<Cardapio>()
-const {id} = useParams()
+    const {id} = useParams()
+    //const { data: cardapio } = useGetCardapioModalQuery(id!)
+        
+    const [cardapio, setCardapio] = useState<Cardapio>()
+    useEffect(() => {
+        axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
+        .then(res => setCardapio(res.data.cardapio[1]))
+        .catch(error => console.log(error))
+        
+    },[])
 
-
-useEffect(() => {
-    axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-     .then(res => setCardapio(res.data.cardapio[0]))
-    .catch(error => console.log(error))
+    console.log(id);
     
-},[])
-
     return(
 
         <>

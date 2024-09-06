@@ -3,13 +3,12 @@ import styled from "styled-components";
 
 
 export const Overlay = styled.div`
-position: absolute;
+position:relative;
 top: 0;
 left: 0;
 width: 100%;
 height: 100%;
 background: rgba(0, 0, 0, 0.8);
-
 `
 
 export const CartContainer = styled.div`
@@ -28,6 +27,7 @@ background-color: ${cores.backGroundCard};;
 max-width: 360px;
 width: 100%;
 z-index: 1;
+
 
 div{
     background-color: ${cores.colorBackGround};
@@ -67,15 +67,19 @@ div{
             
         }
 
-        .lixeira{
-            width: 16px;
-            height: 16px;
-            margin-bottom: 8px;
-            margin-right: 8px;
-            position: fixed;
-            right: 6px;
-            bottom: 473px;
-        
+        span{
+
+            a{
+                .lixeira{
+                    width: 16px;
+                    height: 16px;
+                    margin-bottom: 8px;
+                    margin-right: 8px;
+                    position: fixed;
+                    right: 6px;
+                    bottom: 473px;
+                }
+            }
         }
         
     }

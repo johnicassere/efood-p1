@@ -10,6 +10,8 @@ border: 1px solid ${cores.backGroundCard};
 background-color: ${cores.textColotWhite};
 margin-bottom: 48px;
 
+
+
 .destaque{
     background-image: url(${image});
     width: 100%;
@@ -32,6 +34,7 @@ p{
     line-height: 22px;
     margin-top: 16px;
     padding: 8px;
+    
 }
 
 button{
@@ -44,6 +47,7 @@ button{
     border: none;
     cursor: pointer;
     margin: 16px 8px 8px 8px;
+    
 }
 `
 export const Links = styled.ul`

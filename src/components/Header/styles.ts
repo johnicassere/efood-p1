@@ -51,6 +51,7 @@ export const HeaderImg = styled.div`
     div{
         width: 1024px;
         margin: 0 auto;
+        
     }
     
 `
