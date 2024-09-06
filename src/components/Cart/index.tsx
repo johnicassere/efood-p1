@@ -7,7 +7,7 @@ const Cart = () => {
     return (
        <>
         <Perfil/>
-       <S.CartContainer>
+        <S.CartContainer>
             <S.Overlay/>
                 <S.SideCart>
                     <div>

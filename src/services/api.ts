@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { Cardapio, Restaurantes } from '../types'
 
 
 
@@ -8,19 +9,22 @@ const api = createApi({
     }),
 
     endpoints: (builder) => ({
-        getFeaturedRestaurantes: builder.query({
-           query: () => 'cart' 
+        getFeaturedRestaurantes: builder.query<Restaurantes[], void>({
+           query: () => '' 
+        }),
+        getPerfil: builder.query<Restaurantes[], void>({
+            query: () => ''
+        }),
+        getCardapioModal: builder.query<Cardapio, string>({
+            query: (id) => `/cardapio/${id}`
+            
         }) 
-    })
+    })   
 })
 
+export const { useGetFeaturedRestaurantesQuery, useGetPerfilQuery, useGetCardapioModalQuery } = api
 
-
-
-
-
-
-
+export default api
 
 
 
@@ -28,6 +32,6 @@ const api = createApi({
 
 const figma = 'https://www.figma.com/design/JjduV2Tg713TzYUUsees8b/efood?node-id=1-7&node-type=FRAME&t=KoWZHlFCpA7xxRhh-0'
 
-//export default api
+
 
 

@@ -16,6 +16,9 @@ type Props = {
 
 const Card = ({id , titulo, avaliacao, capa, descricao, tipo, destacado = false}:Props) => {
 
+
+    
+    
     
     return(
         <>
@@ -44,8 +47,6 @@ const Card = ({id , titulo, avaliacao, capa, descricao, tipo, destacado = false}
                             </div>
                         </S.ContainerPontu>
                     <p>
-                    {/* A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão 
-                    fresco e um toque de azeite. Sabor e simplicidade! */}
                     {descricao}
                     </p>
                     <button type='submit'>Saiba Mais</button>
