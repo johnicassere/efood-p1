@@ -7,23 +7,21 @@ import Produto from "../../components/Produto"
 import * as S from './styles'
 import { useGetPerfilQuery } from '../../services/api'
 import { useParams } from "react-router-dom"
-import { Restaurantes } from "../../types"
+import { Cardapio, Restaurantes } from "../../types"
 import axios from "axios"
 
 const Perfil = () => {
     let description = 'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
     const {id} = useParams()
-    const [restaurantes, setRestaurantes] = useState<Restaurantes[]>([])
+    const [cardapio, setCardapio] = useState<Cardapio[]>([])
     useEffect(() => {
-        axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes`)
-        .then(res => setRestaurantes(res.data))
+        axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
+        .then((res) => {
+            setCardapio(res.data.cardapio)
+    })
         .catch(error => console.log(error))
     },[])
 
-    console.log(id);
-    
-
-    //const { data: restaurantes, isLoading } = useGetPerfilQuery()
 
     const getDescription = (text: string) => {
         if(text.length > 138){
@@ -41,12 +39,12 @@ const Perfil = () => {
         <Header/>
         <S.ConatinerPerfil>
             <>
-            {restaurantes?.map((item, index) => (
+            {cardapio?.map((item, index) => (
                 <Produto
                 key={index}
                 id={item.id}
-                titulo={item.titulo}
-                capa={item.capa}
+                nome={item.nome}
+                foto={item.foto}
                 descricao={getDescription(item.descricao)}
                 />  
             ))}

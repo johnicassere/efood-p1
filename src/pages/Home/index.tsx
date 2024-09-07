@@ -8,8 +8,7 @@ import { useParams } from 'react-router-dom'
 
 const Home = () => {
     const {data} = useGetFeaturedRestaurantesQuery()
-    const {id} = useParams() 
-    
+     
  if(!data){
     return <h3 style={{textAlign:'center'}}>Carregando...</h3>
  }

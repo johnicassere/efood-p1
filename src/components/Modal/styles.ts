@@ -36,6 +36,10 @@ margin-top: 490px;
 margin-left: 171px;
 background-color: ${cores.backGroundCard};
 
+.overlay{
+    margin: 0 auto;
+}
+
 .modal-content {
     position: relative;
     display: flex;

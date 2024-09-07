@@ -1,4 +1,4 @@
-export interface Cardapio  {
+export type Cardapio = {
     id: number
     nome: string
     foto: string

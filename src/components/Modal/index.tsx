@@ -10,18 +10,27 @@ import { useGetCardapioModalQuery } from '../../services/api'
 
 
 const Modal = () => {
-    const {id} = useParams()
-    //const { data: cardapio } = useGetCardapioModalQuery(id!)
-        
+    const {id, produto } = useParams()
+   // const { data } = useGetCardapioModalQuery()
+    let idItem = parseInt(produto!)
+    
+
     const [cardapio, setCardapio] = useState<Cardapio>()
     useEffect(() => {
         axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-        .then(res => setCardapio(res.data.cardapio[1]))
+        .then((res) => {
+            let index = res.data.cardapio.findIndex((elemento: any) => elemento.id === idItem)
+            console.log(index, 'index');
+            setCardapio(res.data.cardapio[index])
+        
+        })
         .catch(error => console.log(error))
         
     },[])
 
-    console.log(id);
+
+
+    //console.log(cardapio?.id, 'id modal');
     
     return(
 
@@ -33,7 +42,7 @@ const Modal = () => {
             <div className="modal">
                 <S.Modal className="overlay">
                     <div className="modal-content">
-                            <Link className="icon-close" to={'/perfil'}><img style={{width:'16px', height:'16px'}} src={iconclose} alt="close" /></Link>
+                            <Link className="icon-close" to={`/perfil/${id}`}><img style={{width:'16px', height:'16px'}} src={iconclose} alt="close" /></Link>
                         
                         <div className="capa-item">
                                 <img src={cardapio?.foto} alt={''} />
