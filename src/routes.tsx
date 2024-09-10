@@ -10,9 +10,9 @@ const Rotas = () => {
     return(
         <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/perfil' element={<Perfil/>}/>
+        <Route path='/perfil/:id' element={<Perfil/>}/>
         <Route path='/cart' element={<Cart/>}/>
-        <Route path='/modal/:id' element={<Modal />}/></Routes>
+        <Route path='/modal/:id/:produto' element={<Modal />}/></Routes>
     )
 }
 export default Rotas

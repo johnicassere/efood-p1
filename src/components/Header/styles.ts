@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import fundo from '../../assets/images/fundo.png'
-import image from '../../assets/images/image1.png'
 import { cores } from "../../styles";
 
+
+type  PropsWeight = {
+    weight?: string
+}
 
 export const HeaderBar = styled.header`
 background-image: url(${fundo});
@@ -22,6 +25,7 @@ img{
     
 }
 
+
 `
 export const Title = styled.h1`
 font-size: 18px;
@@ -31,40 +35,64 @@ line-height: 22px;
 
 export const HeaderOpacit = styled.div`
 background: rgba(0, 0, 0, 0.5);
-border: 1px solid transparent;
+width: 100%;
 margin-bottom: 56px;
-
-
 `
 
-export const HeaderImg = styled.div`
-    background-image: url(${image});
+
+
+type Props = {
+    capa?: string
+}
+
+
+
+export const HeaderImg = styled.div<Props>`
+    background-image: url(${(props) => props.capa});
     background-repeat: no-repeat;
     background-size: cover;
-    opacity: .9;
+    position: relative;
     width: 100%;
     height: 280px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-   
-    div{
-        width: 1024px;
-        margin: 0 auto;
-        
-    }
     
 `
 
-type  PropsWeight = {
-    weight?: string
+
+export const ContainerTipo = styled.div`
+width: 1024px;
+height: 280px;
+width: 100%;
+position: absolute;
+background: rgba(0, 0, 0, 0.5);
+
+
+div{
+    width: 1024px;
+    height: 280px;
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .header-tipo{
+        margin-top: 25px;
+    }
+    .header-titulo{
+        margin-bottom: 32px;
+    }
 }
+
+`
 
 export const SubTitle = styled.h2<PropsWeight>`
     font-size: 32px;
     color: ${cores.textColotWhite};
-    font-weight: ${(props) => props.weight === 'lighter' ? '100' : '900' };
+    font-weight: ${(props) => props.weight === 'lighter' ? '100' : '900' }; 
+    
 `
+
+
+
 
 
 

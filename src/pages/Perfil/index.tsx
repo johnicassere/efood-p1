@@ -7,30 +7,28 @@ import Produto from "../../components/Produto"
 import * as S from './styles'
 import { useGetPerfilQuery } from '../../services/api'
 import { useParams } from "react-router-dom"
-import { Restaurantes } from "../../types"
+import { Cardapio, Restaurantes } from "../../types"
 import axios from "axios"
 
 const Perfil = () => {
-    let description = 'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
     const {id} = useParams()
-    const [restaurantes, setRestaurantes] = useState<Restaurantes[]>([])
+    const [cardapio, setCardapio] = useState<Cardapio[]>([])
+    const [restaurante, setRestaurante] = useState<Restaurantes>()
+    
+
     useEffect(() => {
-        axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes`)
-        .then(res => setRestaurantes(res.data))
+        axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
+        .then((res) => {
+            setRestaurante(res.data)
+            setCardapio(res.data.cardapio)
+    })
         .catch(error => console.log(error))
     },[])
 
-    console.log(id);
-    
-
-    //const { data: restaurantes, isLoading } = useGetPerfilQuery()
 
     const getDescription = (text: string) => {
-        if(text.length > 138){
-            return text.slice(0, 138) + '...'
-        }
-        if(!text){
-            return description
+        if(text.length > 140){
+            return text.slice(0, 140) + '...'
         }
         return text
     }
@@ -38,15 +36,15 @@ const Perfil = () => {
     return(
       <>
     
-        <Header/>
+        <Header capa={restaurante?.capa} tipo={restaurante?.tipo} titulo={restaurante?.titulo}/>
         <S.ConatinerPerfil>
             <>
-            {restaurantes?.map((item, index) => (
+            {cardapio?.map((item, index) => (
                 <Produto
                 key={index}
                 id={item.id}
-                titulo={item.titulo}
-                capa={item.capa}
+                nome={item.nome}
+                foto={item.foto}
                 descricao={getDescription(item.descricao)}
                 />  
             ))}
