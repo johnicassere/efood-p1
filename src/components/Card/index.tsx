@@ -46,7 +46,9 @@ const Card = ({id: idItem , titulo, avaliacao, capa, descricao, tipo, destacado 
                     <p>
                     {descricao}
                     </p>
-                    <button type='submit'>Saiba Mais</button>
+                    <div className='btn-saiba-mais'>
+                        <Link to={`/perfil/${idItem}`}  type='submit'>Saiba Mais</Link>
+                    </div>
                 </div>
             </S.CardContainer>
         </>

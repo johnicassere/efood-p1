@@ -5,40 +5,36 @@ import { cores } from "../../styles";
 export const DivOver = styled.div`
 top:0;
 left:0;
-right: 0;
-bottom: 0;
 z-index: 0;
+width: 1366px;
+height: 1974px;
 width: 100%;
-height: 100%;
 opacity: .8;
 position: relative;
+margin: 0 auto;
+
 `
 
 
 export const ContainerModal = styled.div`
-width: 1366px;
-height: 1624px;
-margin: 0 auto;
+height: 1974px;
 width: 100%;
 top: 0;
 left: 0;
-display: flex;
-justify-content: center;
 background: rgba(0, 0, 0, 0.8);
 z-index: 1;
-position: absolute;
+//position: absolute;
+position: fixed;
+
 `
 
 export const Modal = styled.div`
 width:1024px;
 height: 344px;
-margin-top: 490px;
-margin-left: 171px;
+//margin-top: 490px;
+margin: 190px auto;
 background-color: ${cores.backGroundCard};
 
-.overlay{
-    margin: 0 auto;
-}
 
 .modal-content {
     position: relative;
@@ -85,18 +81,19 @@ background-color: ${cores.backGroundCard};
                 font-size: 14px;
                 line-height: 22px;
                 font-weight: 400;
+                margin-top: 16px;
+                margin-bottom: 16px;
             }
 
             div{
-                display: flex;
-                flex-direction: row;
-                text-align: center;
                 max-width: 218px;
-                height: 24px;
-                margin-top: 20px;
+                display: flex;
+                text-align: center;
+                margin-top: 16px;
                 background-color: ${cores.textColorPerfil};
                
                     button{
+                       
                         font-size: 14px;
                         font-weight: 700;
                         line-height: 16px;
@@ -105,6 +102,7 @@ background-color: ${cores.backGroundCard};
                         border: none;
                         color:${cores.backGroundCard};
                         cursor: pointer;
+                        
                     }
                 
             }

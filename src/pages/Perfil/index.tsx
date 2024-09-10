@@ -11,12 +11,15 @@ import { Cardapio, Restaurantes } from "../../types"
 import axios from "axios"
 
 const Perfil = () => {
-    let description = 'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
     const {id} = useParams()
     const [cardapio, setCardapio] = useState<Cardapio[]>([])
+    const [restaurante, setRestaurante] = useState<Restaurantes>()
+    
+
     useEffect(() => {
         axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
         .then((res) => {
+            setRestaurante(res.data)
             setCardapio(res.data.cardapio)
     })
         .catch(error => console.log(error))
@@ -24,11 +27,8 @@ const Perfil = () => {
 
 
     const getDescription = (text: string) => {
-        if(text.length > 138){
-            return text.slice(0, 138) + '...'
-        }
-        if(!text){
-            return description
+        if(text.length > 140){
+            return text.slice(0, 140) + '...'
         }
         return text
     }
@@ -36,7 +36,7 @@ const Perfil = () => {
     return(
       <>
     
-        <Header/>
+        <Header capa={restaurante?.capa} tipo={restaurante?.tipo} titulo={restaurante?.titulo}/>
         <S.ConatinerPerfil>
             <>
             {cardapio?.map((item, index) => (

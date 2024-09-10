@@ -28,9 +28,6 @@ const Modal = () => {
         
     },[])
 
-
-
-    //console.log(cardapio?.id, 'id modal');
     
     return(
 
@@ -38,39 +35,40 @@ const Modal = () => {
         <S.DivOver>
             <Perfil />
         </S.DivOver>
-        <S.ContainerModal >
-            <div className="modal">
-                <S.Modal className="overlay">
-                    <div className="modal-content">
-                            <Link className="icon-close" to={`/perfil/${id}`}><img style={{width:'16px', height:'16px'}} src={iconclose} alt="close" /></Link>
-                        
-                        <div className="capa-item">
-                                <img src={cardapio?.foto} alt={''} />
+        <S.ContainerModal>
+            <S.Modal className="overlay">
+                <div className="modal-content">
+                    <Link className="icon-close" to={`/perfil/${id}`}><img style={{width:'16px', height:'16px'}} src={iconclose} alt="close" /></Link>
+                    <div className="capa-item">
+                         <img src={cardapio?.foto} alt={''} />
                             <div className="descricao">
-                            <h2>{cardapio?.nome}</h2>
-                            <p>
-                            {cardapio?.descricao}
-                            {cardapio?.descricao}
-                            </p>
-                            <br />
-                            <p>
-                            {cardapio?.porcao}
-                            </p>
-                                <div>
-                                    <Link to={'/cart'} className="close-modal" ><button>adicionar ao carrinho - R${cardapio?.preco}</button></Link>
+                                    <h2>
+                                        {cardapio?.nome}
+                                    </h2>
                                    
-                                </div>
-                            </div>
+                                            <p>
+                                            {cardapio?.descricao}
+                                                
+                                                <br />
+                                                 <br />
+                                             {cardapio?.porcao}  
+                                            </p>
 
+                                        <div >
+                                            <Link className="btn-link" to={'/cart'} >
+                                                <button>adicionar ao carrinho - R${cardapio?.preco}</button>
+                                            </Link> 
+                                        </div>
                         </div>
+                    </div>
                 </div>
             </S.Modal>
-        </div> 
         </S.ContainerModal>
-        
         </>
     )
 }
 
 
 export default Modal
+
+//628 length

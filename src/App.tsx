@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux'
 import { BrowserRouter} from 'react-router-dom'
 import  store  from './store/'
-import { Globalcss, Container } from "./styles"; 
+import { Globalcss } from "./styles"; 
 import Rotas from './routes';
 
 function App() {
@@ -9,9 +9,7 @@ function App() {
     <Provider store={store}>
       <BrowserRouter>
        <Globalcss/>
-          <Container className="App">
             <Rotas/>
-          </Container>
       </BrowserRouter>
     </Provider>
   );
