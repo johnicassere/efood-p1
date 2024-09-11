@@ -10,10 +10,12 @@ import { useParams } from "react-router-dom"
 import { Cardapio, Restaurantes } from "../../types"
 import axios from "axios"
 
+
 const Perfil = () => {
     const {id} = useParams()
     const [cardapio, setCardapio] = useState<Cardapio[]>([])
     const [restaurante, setRestaurante] = useState<Restaurantes>()
+   
     
 
     useEffect(() => {
@@ -32,10 +34,11 @@ const Perfil = () => {
         }
         return text
     }
-
+    
+    console.log(cardapio);
+    
     return(
       <>
-    
         <Header capa={restaurante?.capa} tipo={restaurante?.tipo} titulo={restaurante?.titulo}/>
         <S.ConatinerPerfil>
             <>

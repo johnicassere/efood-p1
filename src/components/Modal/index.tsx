@@ -1,74 +1,79 @@
-import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Cardapio } from "../../types";
-import axios from "axios";
-import iconclose from '../../assets/images/close.png'
-import Perfil from "../../pages/Perfil";
+import { useDispatch, useSelector } from 'react-redux'
+import { RootReducer } from '../../store'
+import { useEffect, useState } from 'react'
+import { Cardapio } from '../../types'
+import { useNavigate, useParams } from 'react-router-dom'
+import { open } from '../../store/reducers/cart'
+
+import axios from 'axios'
 import * as S from './styles'
 
-import { useGetCardapioModalQuery } from '../../services/api'
+
+type Props = {
+    id?: number
+    isOpen?: string
+    foto?: string
+}
+
 
 
 const Modal = () => {
     const {id, produto } = useParams()
-   // const { data } = useGetCardapioModalQuery()
+    
     let idItem = parseInt(produto!)
     
-
-    const [cardapio, setCardapio] = useState<Cardapio>()
-    useEffect(() => {
+    
+     const [cardapio, setCardapio] = useState<Cardapio>()
+     useEffect(() => {
         axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
         .then((res) => {
             let index = res.data.cardapio.findIndex((elemento: any) => elemento.id === idItem)
-            console.log(index, 'index');
             setCardapio(res.data.cardapio[index])
-        
         })
         .catch(error => console.log(error))
         
     },[])
 
     
-    return(
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+ 
+    const closeModal = () => {
+        navigate(`/perfil/${id}`)
+         
+    }
 
-        <>
-        <S.DivOver>
-            <Perfil />
-        </S.DivOver>
-        <S.ContainerModal>
-            <S.Modal className="overlay">
-                <div className="modal-content">
-                    <Link className="icon-close" to={`/perfil/${id}`}><img style={{width:'16px', height:'16px'}} src={iconclose} alt="close" /></Link>
-                    <div className="capa-item">
-                         <img src={cardapio?.foto} alt={''} />
-                            <div className="descricao">
-                                    <h2>
-                                        {cardapio?.nome}
-                                    </h2>
-                                   
-                                            <p>
-                                            {cardapio?.descricao}
-                                                
-                                                <br />
-                                                 <br />
-                                             {cardapio?.porcao}  
-                                            </p>
-
-                                        <div >
-                                            <Link className="btn-link" to={'/cart'} >
-                                                <button>adicionar ao carrinho - R${cardapio?.preco}</button>
-                                            </Link> 
-                                        </div>
-                        </div>
-                    </div>
-                </div>
-            </S.Modal>
-        </S.ContainerModal>
-        </>
+    const openCart = () => {
+        dispatch(open())
+        closeModal() 
+    }
+    
+    return (
+            <S.ModalConatiner >
+            <S.OverlayModal onClick={closeModal}/>
+                <S.SideModal>
+                    <ul>
+                        <S.ItemModal>
+                            <img src={cardapio?.foto} alt="" />
+                            <div>
+                                <h3>{cardapio?.nome}</h3>
+                                <button className="button-close" onClick={closeModal}/>
+                                <div className='descricao-modal'>
+                                <p>
+                                {cardapio?.descricao.padEnd(303,' vazio')}
+                                {cardapio?.descricao.padEnd(303, ' vazio')}
+                                </p>
+                                <br />
+                                <p>{cardapio?.porcao}</p>
+                                <button onClick={openCart}>Adicionar ao carrinho - R${cardapio?.preco}</button>
+                                </div>
+                            </div>
+                        </S.ItemModal>
+                    </ul>
+                </S.SideModal>
+            </S.ModalConatiner>
     )
 }
 
 
 export default Modal
-
-//628 length

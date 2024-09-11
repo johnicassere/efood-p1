@@ -1,45 +1,58 @@
-import * as S from "./styles"
-import image from '../../assets/images/image3.png'
-import lixeira from '../../assets/images/lixeiraCart.png'
-import Perfil from "../../pages/Perfil"
-import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux'
+import imagem from '../../assets/images/imagem.png'
+import * as S from './styles'
+import { RootReducer } from '../../store'
+import { close } from '../../store/reducers/cart'
+
+
+
 
 const Cart = () => {
-    return (
-       <>
-        <Perfil/>
-        <S.CartContainer>
-            <S.Overlay/>
-                <S.SideCart>
 
-                    <div className="container-cart">
+   const { isOpen } = useSelector((state: RootReducer) => state.cart)
+
+   const dispatch = useDispatch()
+
+const closeCart = () => {
+    dispatch(close())
+}
+
+
+
+    return(
+        <>
+        <S.CartContainer className={isOpen ? 'is-open' : ''}>
+            <S.OverlayCart onClick={closeCart}/>
+            <S.SideBar>
+                <ul>
+                    <S.ItemCart>
+                        <img src={imagem} alt="" />
                         <div>
-                             <img src={image} alt="" />
+                            <h3>Nome restaurante</h3>
+                            <span>R$69,90</span>
                         </div>
-                            <div>
-                                <h3>Pizza Marguerita</h3>
-                                <span>R$ 60,90</span>
-                            </div>
-                            
-                            <div>
-                                <Link to="/">
-                                    <img className="lixeira" style={{width: '16px', height:'16px'}} src={lixeira} alt="" />
-                                </Link>
-                            </div>
-                    </div>
-
-                    <div className="total-compra">    
-                            <h3>Valor Total</h3>
-                            <span>R$ 60,90</span>   
-                    </div>  
-
-                        <div className="div-btn">
-                            <a href="/">Continuar com entrega</a>
+                        <button type='submit'/>
+                    </S.ItemCart>
+                    
+                    <S.ItemCart>
+                        <img src={imagem} alt="" />
+                        <div>
+                            <h3>Nome restaurante</h3>
+                            <span>R$69,90</span>
                         </div>
-                </S.SideCart> 
-       </S.CartContainer>
-       </>
+                        <button type='submit'/>
+                    </S.ItemCart>
+                    
+                </ul>
+            <div>
+                <S.Total>Valor Total</S.Total>
+                <S.Total>R$49,90</S.Total>
+            </div>
+            <S.ButtonCart>continuar com a entrega</S.ButtonCart>
+            </S.SideBar>
+        </S.CartContainer>
+        </>
     )
-} 
+}
 
 export default Cart

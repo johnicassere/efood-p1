@@ -1,5 +1,7 @@
+import { useState } from "react"
 import * as S from "./styles"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import Modal from "../Modal"
 
 
 type Props = {
@@ -13,16 +15,20 @@ type Props = {
 
 const Produto = ({nome, foto, descricao, id: idProduto }: Props) => {
   const {id} = useParams()
-//   let idFinal;
-//   if(idProduto){
-//     idFinal = idProduto -1 
-//   }
+  const navigate = useNavigate()
+ 
+  
+  const carrinho = () => {
+    let rotaCarrinho = `/modal/${id}/${idProduto?.toString()}`
+    navigate(`${rotaCarrinho}`)
+    
+  }
  
     return(
        <>
             <S.ContainerProduto>
-            <div>
-                <Link to={`/modal/${id}/${idProduto?.toString()}`} ><img src={foto} alt={nome} /></Link>
+            <div> 
+                <img src={foto} alt={nome} onClick={carrinho} />
             </div>
                 <h2>{nome}</h2>
             <p>
