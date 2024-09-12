@@ -13,16 +13,12 @@ const api = createApi({
            query: () => '' 
         }),
         getPerfil: builder.query<Restaurantes[], void>({
-            query: () => ''
-        }),
-        getCardapioModal: builder.query<Cardapio, string>({
-            query: (id) => `/cardapio/${id}`
-            
-        }) 
+            query: () => '/:id'
+        })
     })   
 })
 
-export const { useGetFeaturedRestaurantesQuery, useGetPerfilQuery, useGetCardapioModalQuery } = api
+export const { useGetFeaturedRestaurantesQuery, useGetPerfilQuery } = api
 
 export default api
 

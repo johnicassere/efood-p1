@@ -1,5 +1,7 @@
+import { useState } from "react"
 import * as S from "./styles"
-import { Link, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
+import Modal from "../Modal"
 
 
 type Props = {
@@ -8,34 +10,48 @@ type Props = {
     foto: string
     descricao?: string
     preco?: number
+    porcao?: string
 }
 
 
-const Produto = ({nome, foto, descricao, id: idProduto }: Props) => {
+const Produto = ({nome, foto, descricao, id: idProduto, porcao, preco }: Props) => {
   const {id} = useParams()
-//   let idFinal;
-//   if(idProduto){
-//     idFinal = idProduto -1 
-//   }
- 
+  const navigate = useNavigate()
+  const [openModal, setOpenModal] = useState<boolean>(false)
+  const paramsId = parseInt(`${id}`)
+
+  const carrinho = () => {
+    //let rotaCarrinho = `/modal/${id}/${idProduto?.toString()}`
+   // navigate(`${rotaCarrinho}`)
+    setOpenModal(!openModal)  
+  }
+
     return(
        <>
             <S.ContainerProduto>
-            <div>
-                <Link to={`/modal/${id}/${idProduto?.toString()}`} ><img src={foto} alt={nome} /></Link>
+            <div> 
+                <img src={foto} alt={nome} onClick={carrinho}/>
             </div>
                 <h2>{nome}</h2>
             <p>
                 {descricao}
             </p>
              <div className="adicionar">
-                <Link to={`/modal/${id}/${idProduto?.toString()}`} className="link-modal">Adicionar ao carrinho</Link>
+                <button onClick={carrinho} className="link-modal">Adicionar ao carrinho</button>
              </div>  
         </S.ContainerProduto>
+        <Modal
+        setOpenModal={setOpenModal}
+        isOpen={openModal} 
+        nome={nome}
+        foto={foto}
+        descricao={descricao}
+        porcao={porcao}
+        preco={preco}
+        id={paramsId}
+        />
         </>
     )
 }
 
-
 export default Produto
-

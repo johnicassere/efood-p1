@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
+import { open } from '../../store/reducers/cart'
 import logo from '../../assets/images/logo.png'
+import { useDispatch } from 'react-redux'
 import * as S from "./styles"
 
 type Props = {
@@ -9,6 +11,13 @@ type Props = {
 }
 
 const Header = ({tipo, titulo, capa}: Props) => {
+const dispatch = useDispatch()
+
+const openCart = () => {
+    dispatch(open())
+}
+
+
 
     return(
         <>
@@ -17,7 +26,7 @@ const Header = ({tipo, titulo, capa}: Props) => {
                 <Link to="/"><S.Title>Restaurantes</S.Title></Link>
                     <Link to="/"><img src={logo} alt="logo" /></Link>
                 <S.Title>
-                    <Link to="/"><span>2{' '}</span>produtos(s)</Link>
+                    <a onClick={openCart}><span>2{' '}</span>produto(s)</a>
                 </S.Title>
             </div>
         </S.HeaderBar>
