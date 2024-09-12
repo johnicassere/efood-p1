@@ -1,20 +1,9 @@
-import { Restaurantes } from '../../types'
 import estrela from '../../assets/images/estrela.png'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import * as S from './styles'
 
-type Props = {
-    id?: number
-    titulo?: string
-    tipo?: string
-    destacado?: boolean
-    avaliacao?: string
-    capa?: string
-    descricao?: string
-}
 
-
-const Card = ({id: idItem , titulo, avaliacao, capa, descricao, tipo, destacado = false}:Props) => {
+const Card = ({id: idItem , titulo, avaliacao, capa, descricao, tipo, destacado = false}: Restaurante) => {
 
     
     return(

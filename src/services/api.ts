@@ -1,6 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Cardapio, Restaurantes } from '../types'
-
 
 
 const api = createApi({
@@ -9,16 +7,19 @@ const api = createApi({
     }),
 
     endpoints: (builder) => ({
-        getFeaturedRestaurantes: builder.query<Restaurantes[], void>({
+        getFeaturedRestaurantes: builder.query<Restaurante[], void>({
            query: () => '' 
         }),
-        getPerfil: builder.query<Restaurantes[], void>({
-            query: () => '/:id'
+        getRestaurante: builder.query<Restaurante, string | undefined>({
+            query: (id) => `${id}` 
+         }),
+        getPerfil: builder.query<Restaurante, string | undefined>({
+            query: (id) => `${id}`
         })
     })   
 })
 
-export const { useGetFeaturedRestaurantesQuery, useGetPerfilQuery } = api
+export const { useGetFeaturedRestaurantesQuery, useGetPerfilQuery,useGetRestauranteQuery } = api
 
 export default api
 
@@ -26,7 +27,7 @@ export default api
 
 //const api = 'https://fake-api-tau.vercel.app/api/efood/restaurantes'
 
-const figma = 'https://www.figma.com/design/JjduV2Tg713TzYUUsees8b/efood?node-id=1-7&node-type=FRAME&t=KoWZHlFCpA7xxRhh-0'
+//const figma = 'https://www.figma.com/design/JjduV2Tg713TzYUUsees8b/efood?node-id=1-7&node-type=FRAME&t=KoWZHlFCpA7xxRhh-0'
 
 
 

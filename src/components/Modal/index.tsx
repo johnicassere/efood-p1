@@ -6,20 +6,15 @@ import { open, add } from '../../store/reducers/cart'
 import * as S from './styles'
 
 
-interface Props {
-    id?: number
+interface Props extends Cardapio {
+    
     isOpen?: boolean
-    foto?: string
-    nome?: string
-    descricao?: string
-    porcao?: string
-    preco?: number
     setOpenModal?: (isOpen: boolean) => void
 }
 
 
 
-const Modal = ({ isOpen, nome, foto, descricao, porcao, preco, id, setOpenModal }: Props) => {
+const Modal = ({ isOpen, id, nome, foto, descricao, porcao, preco , setOpenModal }: Props) => {
    
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -34,6 +29,7 @@ const Modal = ({ isOpen, nome, foto, descricao, porcao, preco, id, setOpenModal 
         dispatch(open())
         closeModal(`${id}`)  
     }
+    
 
     if(isOpen){
        

@@ -1,13 +1,13 @@
-export type Cardapio = {
-    id: number
-    nome: string
-    foto: string
-    preco: number
+declare interface Cardapio {
+    id?: number | undefined
+    nome?: string | undefined
+    foto?: string | undefined
+    preco?: number | undefined
     descricao: string
-    porcao: string
+    porcao?: string | undefined
 }
 
-export type Restaurantes = {
+declare type Restaurante = {
     id: number
     titulo: string
     tipo?: string 

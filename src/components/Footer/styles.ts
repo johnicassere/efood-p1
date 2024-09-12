@@ -17,6 +17,7 @@ margin-top: 120px;
     font-size: 10px;
     text-align: center;
 }
+
 `
 
 export const Links = styled.ul`

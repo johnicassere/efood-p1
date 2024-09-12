@@ -26,6 +26,16 @@ img{
     
 }
 
+@media(max-width: 1025px){
+    width: 1200px;
+    
+
+    .container{
+        width: 100%;
+    }
+    
+}
+
 
 `
 export const Title = styled.h1`
@@ -45,8 +55,6 @@ margin-bottom: 56px;
 type Props = {
     capa?: string
 }
-
-
 
 export const HeaderImg = styled.div<Props>`
     background-image: url(${(props) => props.capa});
@@ -81,7 +89,7 @@ div{
     .header-titulo{
         margin-bottom: 32px;
     }
-
+    
 }
 
 `
@@ -91,8 +99,6 @@ export const SubTitle = styled.h2<PropsWeight>`
     color: ${cores.textColotWhite};
     font-weight: ${(props) => props.weight === 'lighter' ? '100' : '900' }; 
 
-    
-    
 `
 
 
