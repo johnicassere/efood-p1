@@ -1,31 +1,24 @@
 import { useState } from "react"
-import * as S from "./styles"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import Modal from "../Modal"
+import * as S from "./styles"
 
 
-type Props = {
-    id?: number
-    nome: string
-    foto: string
-    descricao?: string
-    preco?: number
-    porcao?: string
-}
 
 
-const Produto = ({nome, foto, descricao, id: idProduto, porcao, preco }: Props) => {
+const Produto = ({ nome, foto, descricao, porcao, preco }: Cardapio) => {
   const {id} = useParams()
-  const navigate = useNavigate()
   const [openModal, setOpenModal] = useState<boolean>(false)
   const paramsId = parseInt(`${id}`)
 
+  
+  
+
   const carrinho = () => {
-    //let rotaCarrinho = `/modal/${id}/${idProduto?.toString()}`
-   // navigate(`${rotaCarrinho}`)
     setOpenModal(!openModal)  
   }
 
+ 
     return(
        <>
             <S.ContainerProduto>

@@ -1,4 +1,3 @@
-import { Cardapio } from './../../types.d';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 type CartState = {
