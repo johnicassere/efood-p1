@@ -13,6 +13,7 @@ padding: 40px;
 
 a{
     color: ${cores.backGroundCard};
+    cursor: pointer;
 }
 img{
     width: 125px;
@@ -80,6 +81,7 @@ div{
     .header-titulo{
         margin-bottom: 32px;
     }
+
 }
 
 `
@@ -88,6 +90,8 @@ export const SubTitle = styled.h2<PropsWeight>`
     font-size: 32px;
     color: ${cores.textColotWhite};
     font-weight: ${(props) => props.weight === 'lighter' ? '100' : '900' }; 
+
+    
     
 `
 

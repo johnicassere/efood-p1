@@ -1,71 +1,60 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
-import { useEffect, useState } from 'react'
-import { Cardapio } from '../../types'
-import { useNavigate, useParams } from 'react-router-dom'
-import { open } from '../../store/reducers/cart'
+import { useNavigate } from 'react-router-dom'
+import { open, add } from '../../store/reducers/cart'
 
-import axios from 'axios'
 import * as S from './styles'
 
 
-type Props = {
+interface Props {
     id?: number
-    isOpen?: string
+    isOpen?: boolean
     foto?: string
+    nome?: string
+    descricao?: string
+    porcao?: string
+    preco?: number
+    setOpenModal?: (isOpen: boolean) => void
 }
 
 
 
-const Modal = () => {
-    const {id, produto } = useParams()
-    
-    let idItem = parseInt(produto!)
-    
-    
-     const [cardapio, setCardapio] = useState<Cardapio>()
-     useEffect(() => {
-        axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-        .then((res) => {
-            let index = res.data.cardapio.findIndex((elemento: any) => elemento.id === idItem)
-            setCardapio(res.data.cardapio[index])
-        })
-        .catch(error => console.log(error))
-        
-    },[])
-
-    
+const Modal = ({ isOpen, nome, foto, descricao, porcao, preco, id, setOpenModal }: Props) => {
+   
     const dispatch = useDispatch()
     const navigate = useNavigate()
  
-    const closeModal = () => {
+    const closeModal = (id: string ) => {
+        setOpenModal!(!isOpen)
         navigate(`/perfil/${id}`)
          
     }
 
     const openCart = () => {
         dispatch(open())
-        closeModal() 
+        closeModal(`${id}`)  
     }
-    
-    return (
-            <S.ModalConatiner >
-            <S.OverlayModal onClick={closeModal}/>
+
+    if(isOpen){
+       
+        return (
+            <S.ModalConatiner>
+            <S.OverlayModal onClick={() => setOpenModal!(!isOpen)}/>
                 <S.SideModal>
                     <ul>
                         <S.ItemModal>
-                            <img src={cardapio?.foto} alt="" />
+                            <img src={foto} alt="" />
                             <div>
-                                <h3>{cardapio?.nome}</h3>
-                                <button className="button-close" onClick={closeModal}/>
+                                <h3>{nome}</h3>
+                                <button className="button-close" onClick={() => setOpenModal!(!isOpen)}/>
                                 <div className='descricao-modal'>
                                 <p>
-                                {cardapio?.descricao.padEnd(303,' vazio')}
-                                {cardapio?.descricao.padEnd(303, ' vazio')}
+                                {descricao?.padEnd(303,' vazio')}
+                                {descricao?.padEnd(303, ' vazio')}
                                 </p>
                                 <br />
-                                <p>{cardapio?.porcao}</p>
-                                <button onClick={openCart}>Adicionar ao carrinho - R${cardapio?.preco}</button>
+                                <p>{porcao}</p>
+                                <button onClick={openCart}>Adicionar ao carrinho - R${preco}</button>
                                 </div>
                             </div>
                         </S.ItemModal>
@@ -73,6 +62,11 @@ const Modal = () => {
                 </S.SideModal>
             </S.ModalConatiner>
     )
+    }else{
+       return  <></>
+    }
+    
+    
 }
 
 

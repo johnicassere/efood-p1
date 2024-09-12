@@ -33,16 +33,7 @@ const closeCart = () => {
                         </div>
                         <button type='submit'/>
                     </S.ItemCart>
-                    
-                    <S.ItemCart>
-                        <img src={imagem} alt="" />
-                        <div>
-                            <h3>Nome restaurante</h3>
-                            <span>R$69,90</span>
-                        </div>
-                        <button type='submit'/>
-                    </S.ItemCart>
-                    
+                      
                 </ul>
             <div>
                 <S.Total>Valor Total</S.Total>

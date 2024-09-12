@@ -13,7 +13,7 @@ const api = createApi({
            query: () => '' 
         }),
         getPerfil: builder.query<Restaurantes[], void>({
-            query: () => ''
+            query: () => '/:id'
         })
     })   
 })

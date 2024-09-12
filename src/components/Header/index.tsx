@@ -26,7 +26,7 @@ const openCart = () => {
                 <Link to="/"><S.Title>Restaurantes</S.Title></Link>
                     <Link to="/"><img src={logo} alt="logo" /></Link>
                 <S.Title>
-                    <Link onClick={openCart} to="/cart"><span>2{' '}</span>produtos(s)</Link>
+                    <a onClick={openCart}><span>2{' '}</span>produto(s)</a>
                 </S.Title>
             </div>
         </S.HeaderBar>

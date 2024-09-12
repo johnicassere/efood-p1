@@ -23,6 +23,7 @@ const Perfil = () => {
         .then((res) => {
             setRestaurante(res.data)
             setCardapio(res.data.cardapio)
+            
     })
         .catch(error => console.log(error))
     },[])
@@ -34,8 +35,7 @@ const Perfil = () => {
         }
         return text
     }
-    
-    console.log(cardapio);
+     
     
     return(
       <>
@@ -49,6 +49,8 @@ const Perfil = () => {
                 nome={item.nome}
                 foto={item.foto}
                 descricao={getDescription(item.descricao)}
+                preco={item.preco}
+                porcao={item.porcao}
                 />  
             ))}
             </>

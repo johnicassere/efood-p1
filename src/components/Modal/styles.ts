@@ -22,9 +22,6 @@ height: 100%;
 display: flex;
 z-index:1;
 
-&.is-open{
-    display: flex;
-}
 `
 export const SideModal = styled.aside`
 background-color: ${cores.backGroundCard};
