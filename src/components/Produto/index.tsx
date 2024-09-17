@@ -4,21 +4,39 @@ import Modal from "../Modal"
 import * as S from "./styles"
 
 
+type Props = {
+  id?: number
+   nome?: string
+   foto?: string
+   descricao: string
+   porcao?: string
+   preco?: number
+ }
 
 
-const Produto = ({ nome, foto, descricao, porcao, preco }: Cardapio) => {
-  const {id} = useParams()
+const Produto = ({ descricao, foto, nome, porcao, preco, id }: Props) => {
+  
+  
+ // const {id} = useParams()
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const paramsId = parseInt(`${id}`)
-
-  
-  
-
-  const carrinho = () => {
-    setOpenModal(!openModal)  
-  }
+ // const paramsId = parseInt(`${id}`)
+ 
+ const cardapioModal = {
+  id,
+  nome,
+  foto,
+  descricao,
+  porcao,
+  preco
+ }
 
  
+
+  const carrinho = () => {
+    setOpenModal(!openModal) 
+  }
+
+  
     return(
        <>
             <S.ContainerProduto>
@@ -35,13 +53,8 @@ const Produto = ({ nome, foto, descricao, porcao, preco }: Cardapio) => {
         </S.ContainerProduto>
         <Modal
         setOpenModal={setOpenModal}
-        isOpen={openModal} 
-        nome={nome}
-        foto={foto}
-        descricao={descricao}
-        porcao={porcao}
-        preco={preco}
-        id={paramsId}
+        isOpen={openModal}
+        cardapio={cardapioModal} 
         />
         </>
     )

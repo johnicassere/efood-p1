@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import { open } from '../../store/reducers/cart'
 import logo from '../../assets/images/logo.png'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import * as S from "./styles"
+import { RootReducer } from '../../store'
 
 type Props = {
     tipo?: string
@@ -12,6 +13,7 @@ type Props = {
 
 const Header = ({tipo, titulo, capa}: Props) => {
 const dispatch = useDispatch()
+const { items } = useSelector((state: RootReducer) => state.cart)
 
 const openCart = () => {
     dispatch(open())
@@ -26,7 +28,7 @@ const openCart = () => {
                 <Link to="/"><S.Title>Restaurantes</S.Title></Link>
                     <Link to="/"><img src={logo} alt="logo" /></Link>
                 <S.Title>
-                    <a onClick={openCart}><span>2{' '}</span>produto(s)</a>
+                    <a onClick={openCart}><span>{items.length}{' '}</span>produto(s)</a>
                 </S.Title>
             </div>
         </S.HeaderBar>
