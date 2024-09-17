@@ -1,5 +1,5 @@
 declare interface Cardapio {
-    id?: number | undefined
+    id: number | undefined
     nome?: string | undefined
     foto?: string | undefined
     preco?: number | undefined

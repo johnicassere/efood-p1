@@ -1,20 +1,26 @@
 import { useDispatch, useSelector } from 'react-redux'
-import imagem from '../../assets/images/imagem.png'
-import * as S from './styles'
 import { RootReducer } from '../../store'
-import { close } from '../../store/reducers/cart'
+import { close, remover } from '../../store/reducers/cart'
+import { parseToBrl, precoTotal } from '../../utils'
+import * as S from './styles'
 
 
 
 
 const Cart = () => {
 
-   const { isOpen } = useSelector((state: RootReducer) => state.cart)
+   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
 
    const dispatch = useDispatch()
 
 const closeCart = () => {
     dispatch(close())
+}
+
+const removerProduto = (id: number) => {
+    console.log(id, 'cart id');
+    
+    dispatch(remover(id))
 }
 
 
@@ -24,20 +30,24 @@ const closeCart = () => {
         <S.CartContainer className={isOpen ? 'is-open' : ''}>
             <S.OverlayCart onClick={closeCart}/>
             <S.SideBar>
+                {items.length <= 0 ? (<h4>O carrinho está vazio</h4>
+                ) : (
                 <ul>
-                    <S.ItemCart>
-                        <img src={imagem} alt="" />
+                    {items.map((item, index) => (
+                        <S.ItemCart key={index}>
+                        <img src={item.foto} alt={item.nome} />
                         <div>
-                            <h3>Nome restaurante</h3>
-                            <span>R$69,90</span>
+                            <h3>{item.nome}</h3>
+                            <span>R${' '}{item.preco}</span>
                         </div>
-                        <button type='submit'/>
+                        <button onClick={() => removerProduto(item.id!)} type='submit'/>
                     </S.ItemCart>
-                      
+                    ))}     
                 </ul>
+                )}
             <div>
                 <S.Total>Valor Total</S.Total>
-                <S.Total>R$49,90</S.Total>
+                <S.Total>{parseToBrl(precoTotal(items))}</S.Total>
             </div>
             <S.ButtonCart>continuar com a entrega</S.ButtonCart>
             </S.SideBar>
