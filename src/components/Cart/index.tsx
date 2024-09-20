@@ -2,28 +2,40 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
 import { close, remover } from '../../store/reducers/cart'
 import { parseToBrl, precoTotal } from '../../utils'
+
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Checkout from '../Checkout'
 import * as S from './styles'
 
 
 
 
+
 const Cart = () => {
-
+    const navigate = useNavigate()
    const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
-
+   
+   const [openEntrega, setOpenEntrega] = useState<boolean>(false)
    const dispatch = useDispatch()
+   
+
 
 const closeCart = () => {
     dispatch(close())
 }
 
 const removerProduto = (id: number) => {
-    console.log(id, 'cart id');
-    
     dispatch(remover(id))
 }
 
 
+const entrega = () => {
+    setOpenEntrega(!openEntrega)
+    dispatch(close())
+    console.log(openEntrega, 'open entrega cart -- false');
+    
+}
 
     return(
         <>
@@ -49,9 +61,15 @@ const removerProduto = (id: number) => {
                 <S.Total>Valor Total</S.Total>
                 <S.Total>{parseToBrl(precoTotal(items))}</S.Total>
             </div>
-            <S.ButtonCart>continuar com a entrega</S.ButtonCart>
+            <S.ButtonCart onClick={entrega}>
+                {items.length <= 0 ? 'Voltar' : 'Continuar com a entrega'}</S.ButtonCart>
             </S.SideBar>
         </S.CartContainer>
+
+        <Checkout 
+        setOpenChekout={setOpenEntrega} 
+        openCheckout={openEntrega}
+        />
         </>
     )
 }

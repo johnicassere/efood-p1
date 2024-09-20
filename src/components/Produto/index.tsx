@@ -16,25 +16,22 @@ type Props = {
 
 const Produto = ({ descricao, foto, nome, porcao, preco, id }: Props) => {
   
-  
- // const {id} = useParams()
   const [openModal, setOpenModal] = useState<boolean>(false)
- // const paramsId = parseInt(`${id}`)
  
- const cardapioModal = {
-  id,
-  nome,
-  foto,
-  descricao,
-  porcao,
-  preco
- }
-
  
+    const cardapioModal = {
+      id,
+      nome,
+      foto,
+      descricao,
+      porcao,
+      preco
+    }
 
-  const carrinho = () => {
-    setOpenModal(!openModal) 
-  }
+
+    const carrinho = () => {
+      setOpenModal(!openModal) 
+    }
 
   
     return(

@@ -26,15 +26,7 @@ img{
     
 }
 
-@media(max-width: 1025px){
-    width: 1200px;
-    
 
-    .container{
-        width: 100%;
-    }
-    
-}
 
 
 `
@@ -42,6 +34,7 @@ export const Title = styled.h1`
 font-size: 18px;
 font-weight: 900;
 line-height: 22px;
+margin-left: 24px;
 `
 
 export const HeaderOpacit = styled.div`
