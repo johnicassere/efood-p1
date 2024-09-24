@@ -15,13 +15,39 @@ width: 100%;
 height: 100%;
 top: 0;
 left: 0;
-display: none;
+display: flex;
 justify-content: flex-end;
 color: ${cores.textColotWhite};
 z-index:1;
 
 &.is-open{
-    display: flex;
+    display: none;
+}
+
+h4{
+   font-size: 16px;
+   font-weight: 700;
+   line-height: 18px;
+   margin-bottom: 16px;
+}
+
+label{
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+    margin-top: 8px;        
+    margin-bottom: 8px;
+}
+
+input{
+    margin-bottom: 8px;
+    padding: 8px;
+    height: 32px;
+    border: none;
+    color: #4b4b4b ;
+    font-weight: 700;
+    background-color: ${cores.textColorPerfil};
+    
 }
 
 `
@@ -33,14 +59,8 @@ z-index: 1;
 padding: 32px 8px 0 8px;
 color: ${cores.textColorPerfil};
 
-h4{
-   font-size: 16px;
-   font-weight: 700;
-   line-height: 18px;
-   margin-bottom: 16px;
-}
 
-form{
+.form-checkout{
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
@@ -52,23 +72,6 @@ form{
         flex-direction: column;
         margin-bottom: 8px;
 
-        label{
-            font-size: 14px;
-            font-weight: 700;
-            line-height: 16px;
-            margin-top: 8px;
-            margin-bottom: 8px;
-        }
-        input{
-            height: 32px;
-            padding: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            background-color: ${cores.textColorPerfil};
-            color: #4b4b4b;
-            border: none;
-
-        }
     }
 
     .cep{
@@ -96,14 +99,27 @@ form{
                 color: #4b4b4b;
                 font-weight: 700;
                 border: none;
-
+                
             }
         }
     }
 
 }
+`
 
+export const SidePagamento = styled.aside`
+background-color: ${cores.backGroundCard};
+max-width: 360px;
+width: 100%;
+top: 0;
+left: 0;
+z-index: 1;
+padding: 32px 8px 0 8px;
+color: ${cores.textColorPerfil};
+font-size: 14px;
+font-weight: 700;
 
+ 
 `
 
 export const ButtonCheckout = styled.button`
@@ -116,4 +132,95 @@ export const ButtonCheckout = styled.button`
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
+`
+
+export const PagamentoContainer = styled.div`
+position: fixed;
+width: 100%;
+height: 100%;
+top: 0;
+left: 0;
+display: none;
+justify-content: flex-end;
+color: ${cores.textColotWhite};
+z-index:1;
+
+&.is-open{
+    display: flex;
+}
+
+h4{
+   font-size: 16px;
+   font-weight: 700;
+   line-height: 18px;
+   margin-bottom: 16px;
+}
+
+label{
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+    margin-top: 8px;        
+    margin-bottom: 8px;
+}
+
+input{
+    margin-bottom: 8px;
+    padding: 8px;
+    height: 32px;
+    border: none;
+    color: #4b4b4b ;
+    font-weight: 700;
+    background-color: ${cores.textColorPerfil};
+    
+}
+
+
+.nome-cartao {
+    display: flex;
+    flex-direction: column;
+    
+   }
+
+   .campo-numero{
+    display: flex;
+    overflow: hidden;
+    margin-bottom: 8px;
+    
+        .numero-cartao{
+            input{
+                max-width: 228px;
+                width: 100%;
+                margin-top: 8px;
+            }
+        }
+
+        .cvv-cartao{
+            max-width: 87px;
+           
+            input{
+                margin-top: 8px;
+                width: 100%;
+            }
+        }
+
+   }
+
+   .data-cartao{
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    max-width: 345px;
+
+    div{
+        max-width: 155px;
+        height: 56px;
+        margin-bottom: 24px;
+
+        input{
+            margin-top: 8px;
+        }
+        
+    }
+   }
 `

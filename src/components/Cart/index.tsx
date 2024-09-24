@@ -13,10 +13,10 @@ import * as S from './styles'
 
 
 const Cart = () => {
+    const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
+    const [openEntrega, setOpenEntrega] = useState<boolean>(false)
+    
     const navigate = useNavigate()
-   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
-   
-   const [openEntrega, setOpenEntrega] = useState<boolean>(false)
    const dispatch = useDispatch()
    
 
@@ -29,12 +29,9 @@ const removerProduto = (id: number) => {
     dispatch(remover(id))
 }
 
-
-const entrega = () => {
+const entrega = () => { 
     setOpenEntrega(!openEntrega)
     dispatch(close())
-    console.log(openEntrega, 'open entrega cart -- false');
-    
 }
 
     return(
@@ -61,8 +58,12 @@ const entrega = () => {
                 <S.Total>Valor Total</S.Total>
                 <S.Total>{parseToBrl(precoTotal(items))}</S.Total>
             </div>
-            <S.ButtonCart onClick={entrega}>
-                {items.length <= 0 ? 'Voltar' : 'Continuar com a entrega'}</S.ButtonCart>
+            {items.length <= 0 ? (
+                <S.ButtonCart onClick={closeCart}>
+                    Voltar
+                </S.ButtonCart>
+            ) : (
+                <S.ButtonCart onClick={entrega}>Continuar com a entrega</S.ButtonCart>)}
             </S.SideBar>
         </S.CartContainer>
 
