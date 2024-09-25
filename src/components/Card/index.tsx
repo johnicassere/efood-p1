@@ -1,24 +1,10 @@
-import { Restaurantes } from '../../types'
 import estrela from '../../assets/images/estrela.png'
 import { Link } from 'react-router-dom'
 import * as S from './styles'
 
-type Props = {
-    id?: number
-    titulo?: string
-    tipo?: string
-    destacado?: boolean
-    avaliacao?: string
-    capa?: string
-    descricao?: string
-}
 
+const Card = ({id: idItem , titulo, avaliacao, capa, descricao, tipo, destacado = false}: Restaurante) => {
 
-const Card = ({id , titulo, avaliacao, capa, descricao, tipo, destacado = false}:Props) => {
-
-
-    
-    
     
     return(
         <>
@@ -27,13 +13,13 @@ const Card = ({id , titulo, avaliacao, capa, descricao, tipo, destacado = false}
                   <S.Links>
                     {destacado ? (
                         <S.LinkItem className='destaque-semana'>
-                            <Link to="/perfil">Destaque da semana</Link>
+                            <Link to={`/perfil/${idItem?.toString()}`}>Destaque da semana</Link>
                         </S.LinkItem>
                     ) : (
                         <></>
                     )
                     }
-                    <S.LinkItem><Link to="/perfil">{tipo}</Link></S.LinkItem>
+                    <S.LinkItem><Link to={`/perfil/${idItem?.toString()}`}>{tipo}</Link></S.LinkItem>
                   </S.Links>
                 </S.Destaque>
                 <div>
@@ -49,7 +35,9 @@ const Card = ({id , titulo, avaliacao, capa, descricao, tipo, destacado = false}
                     <p>
                     {descricao}
                     </p>
-                    <button type='submit'>Saiba Mais</button>
+                    <div className='btn-saiba-mais'>
+                        <Link to={`/perfil/${idItem}`}  type='submit'>Saiba Mais</Link>
+                    </div>
                 </div>
             </S.CardContainer>
         </>

@@ -3,13 +3,12 @@ import { ContainerHome } from "./styles"
 import Card from "../../components/Card"
 import Footer from "../../components/Footer"
 import Hero from "../../components/Hero"
-import { useParams } from 'react-router-dom'
+
 
 
 const Home = () => {
     const {data} = useGetFeaturedRestaurantesQuery()
-    const {id} = useParams() 
-    
+     
  if(!data){
     return <h3 style={{textAlign:'center'}}>Carregando...</h3>
  }
@@ -26,7 +25,7 @@ const Home = () => {
                 titulo={item.titulo} 
                 avaliacao={item.avaliacao}
                 capa={item.capa}
-                descricao={item.descricao.padEnd(323)}
+                descricao={item.descricao.padEnd(275,`.`)}
                 tipo={item.tipo}
                 /> 
             ))}

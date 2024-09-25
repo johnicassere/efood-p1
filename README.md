@@ -56,3 +56,9 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ``npm install --save @reduxjs/toolkit react-redux``
 
+``npm install  --save-dev yup formik``
+
+``npm i --save react-input-mask``
+
+``npm i --save-dev @types/react-input-mask``
+

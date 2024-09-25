@@ -1,12 +1,13 @@
-import { Cardapio } from './../../types.d';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 type CartState = {
     items: Cardapio[]
+    isOpen: boolean
 }
 
 const initialState: CartState = {
-    items: []
+    items: [],
+    isOpen: false
 }
 
 const cartSlice = createSlice({
@@ -14,10 +15,28 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         add: (state, action: PayloadAction<Cardapio>) => {
-            state.items.push(action.payload)
+            //state.items.push(action.payload)
+            const cardapio = state.items.find(item => item.id === action.payload.id)
+                if(!cardapio){
+                        state.items.push(action.payload)
+                    }else {
+                        alert('Este item já esta no carrinho')
+                }
+        },
+        remover: (state, action: PayloadAction<number>) => {
+           state.items = state.items.filter((item) => item.id !== action.payload)
+        },
+        removeAll: (state) => {
+            state.items.length = state.items.length - state.items.length    
+        },
+        open: (state) => {
+            state.isOpen = true
+        },
+        close: (state) => {
+            state.isOpen = false
         }
     }
 })
 
-export const { add } = cartSlice.actions
+export const { add, open, close, remover, removeAll } = cartSlice.actions
 export default cartSlice.reducer

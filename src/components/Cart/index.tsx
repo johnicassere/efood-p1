@@ -1,35 +1,82 @@
-import * as S from "./styles"
-import image from '../../assets/images/image3.png'
-import lixeira from '../../assets/images/lixeiraCart.png'
-import Perfil from "../../pages/Perfil"
+import { useDispatch, useSelector } from 'react-redux'
+import { RootReducer } from '../../store'
+import { close, remover } from '../../store/reducers/cart'
+import { parseToBrl, precoTotal } from '../../utils'
+
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Checkout from '../Checkout'
+import * as S from './styles'
+
+
+
+
 
 const Cart = () => {
-    return (
-       <>
-        <Perfil/>
-        <S.CartContainer>
-            <S.Overlay/>
-                <S.SideCart>
-                    <div>
-                        <img src={image} alt="" />
-                        <div>
-                            <h3>Pizza Marguerita</h3>
-                            <span>R$ 60,90</span>
-                            <span><a href="/perfil"><img className="lixeira" src={lixeira} alt="" /></a></span>
-                        </div>
-                    </div>
 
-                    <div className="total-compra">    
-                            <h3>Valor Total</h3>
-                            <span>R$ 60,90</span>   
-                    </div>  
-                        <div className="div-btn">
-                            <a href="/perfil">Continuar com entrega</a>
+   
+    const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
+    const [openEntrega = false, setOpenEntrega] = useState<boolean>()
+    
+   
+   const dispatch = useDispatch()
+   
+
+
+const closeCart = () => {
+    dispatch(close())
+}
+
+const removerProduto = (id: number) => {
+    dispatch(remover(id))
+}
+
+const continuaEntrega = () => { 
+         setOpenEntrega(true)
+         dispatch(close())
+         
+ }
+        
+
+    return(
+        <>
+        <S.CartContainer className={isOpen ? 'is-open' : ''}>
+            <S.OverlayCart onClick={closeCart}/>
+            <S.SideBar>
+                {items.length <= 0 ? (<h4>O carrinho está vazio</h4>
+                ) : (
+                <ul>
+                    {items.map((item, index) => (
+                        <S.ItemCart key={index}>
+                        <img src={item.foto} alt={item.nome} />
+                        <div>
+                            <h3>{item.nome}</h3>
+                            <span>R${' '}{item.preco}</span>
                         </div>
-                </S.SideCart> 
-       </S.CartContainer>
-       </>
+                        <button onClick={() => removerProduto(item.id!)} type='submit'/>
+                    </S.ItemCart>
+                    ))}     
+                </ul>
+                )}
+            <div>
+                <S.Total>Valor Total</S.Total>
+                <S.Total>{parseToBrl(precoTotal(items))}</S.Total>
+            </div>
+            {items.length <= 0 ? (
+                <S.ButtonCart onClick={closeCart}>
+                    Voltar
+                </S.ButtonCart>
+            ) : (
+                <S.ButtonCart onClick={continuaEntrega}>Continuar com a entrega</S.ButtonCart>)}
+            </S.SideBar>
+        </S.CartContainer>
+
+        <Checkout 
+        setOpenChekout={setOpenEntrega} 
+        openCheckout={openEntrega}
+        />
+        </>
     )
-} 
+}
 
 export default Cart

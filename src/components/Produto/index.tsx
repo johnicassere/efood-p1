@@ -1,37 +1,60 @@
+import { useState } from "react"
+import { useParams } from "react-router-dom"
+import Modal from "../Modal"
 import * as S from "./styles"
-import { Link } from "react-router-dom"
 
 
 type Props = {
-    id?: number
-    titulo: string
-    capa: string
-    descricao?: string
-    preco?: number
-}
+  id?: number
+   nome?: string
+   foto?: string
+   descricao: string
+   porcao?: string
+   preco?: number
+ }
 
 
-const Produto = ({titulo, capa, descricao, id }: Props) => {
+const Produto = ({ descricao, foto, nome, porcao, preco, id }: Props) => {
   
+  const [openModal, setOpenModal] = useState<boolean>(false)
  
+ 
+    const cardapioModal = {
+      id,
+      nome,
+      foto,
+      descricao,
+      porcao,
+      preco
+    }
+
+
+    const carrinho = () => {
+      setOpenModal(!openModal) 
+    }
+
+  
     return(
        <>
             <S.ContainerProduto>
-            <div>
-                <Link to={`/modal/${id}`} ><img src={capa} alt={titulo} /></Link>
+            <div> 
+                <img src={foto} alt={nome} onClick={carrinho}/>
             </div>
-                <h2>{titulo}</h2>
+                <h2>{nome}</h2>
             <p>
                 {descricao}
             </p>
              <div className="adicionar">
-                <Link to={`/modal/${id}`} className="link-modal">Adicionar ao carrinho</Link>
+                <button onClick={carrinho} className="link-modal">Adicionar ao carrinho</button>
              </div>  
         </S.ContainerProduto>
+        <Modal
+        setOpenModal={setOpenModal}
+        isOpen={openModal}
+        cardapio={cardapioModal} 
+        />
         </>
     )
 }
 
-
 export default Produto
-

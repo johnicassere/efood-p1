@@ -1,53 +1,42 @@
 
-import { useEffect, useState } from "react"
 import Footer from "../../components/Footer"
 import Header from "../../components/Header"
 import Produto from "../../components/Produto"
 
-import * as S from './styles'
-import { useGetPerfilQuery } from '../../services/api'
+import { useGetPerfilQuery, useGetRestauranteQuery } from '../../services/api'
 import { useParams } from "react-router-dom"
-import { Restaurantes } from "../../types"
-import axios from "axios"
+import * as S from './styles'
+
 
 const Perfil = () => {
-    let description = 'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
     const {id} = useParams()
-    const [restaurantes, setRestaurantes] = useState<Restaurantes[]>([])
-    useEffect(() => {
-        axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes`)
-        .then(res => setRestaurantes(res.data))
-        .catch(error => console.log(error))
-    },[])
+    const {data: getRestaurante} = useGetRestauranteQuery(id)
+    const {data} = useGetPerfilQuery(id)
 
-    console.log(id);
-    
-
-    //const { data: restaurantes, isLoading } = useGetPerfilQuery()
 
     const getDescription = (text: string) => {
-        if(text.length > 138){
-            return text.slice(0, 138) + '...'
-        }
-        if(!text){
-            return description
+        if(text.length > 140){
+            return text.slice(0, 140) + '...'
         }
         return text
     }
+     
 
+    
     return(
       <>
-    
-        <Header/>
+        <Header capa={getRestaurante?.capa} tipo={getRestaurante?.tipo} titulo={getRestaurante?.titulo}/>
         <S.ConatinerPerfil>
             <>
-            {restaurantes?.map((item, index) => (
+            {data?.cardapio?.map((item, index) => (
                 <Produto
-                key={index}
-                id={item.id}
-                titulo={item.titulo}
-                capa={item.capa}
-                descricao={getDescription(item.descricao)}
+                 key={index}
+                 id={item.id}
+                 nome={item.nome}
+                 foto={item.foto}
+                 descricao={getDescription(item.descricao)}
+                 preco={item.preco}
+                 porcao={item.porcao}
                 />  
             ))}
             </>

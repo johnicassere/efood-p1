@@ -1,66 +1,68 @@
-import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Cardapio } from "../../types";
-import axios from "axios";
-import iconclose from '../../assets/images/close.png'
-import Perfil from "../../pages/Perfil";
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { open, add } from '../../store/reducers/cart'
+
 import * as S from './styles'
 
-import { useGetCardapioModalQuery } from '../../services/api'
+
+type Props = {
+    cardapio: Cardapio
+    isOpen?: boolean
+    setOpenModal?: (isOpen: boolean) => void
+}
 
 
-const Modal = () => {
-    const {id} = useParams()
-    //const { data: cardapio } = useGetCardapioModalQuery(id!)
-        
-    const [cardapio, setCardapio] = useState<Cardapio>()
-    useEffect(() => {
-        axios.get(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-        .then(res => setCardapio(res.data.cardapio[1]))
-        .catch(error => console.log(error))
-        
-    },[])
+const Modal = ({ isOpen, cardapio, setOpenModal }: Props) => {
+  
+    const dispatch = useDispatch()
+    const paramsId = cardapio.id?.toString()  
 
-    console.log(id);
-    
-    return(
+    const { nome, foto, descricao, porcao, preco } = cardapio
+   
+    const closeModal = (id?: string ) => {
+        setOpenModal!(!isOpen)
+         
+    }
 
-        <>
-        <S.DivOver>
-            <Perfil />
-        </S.DivOver>
-        <S.ContainerModal >
-            <div className="modal">
-                <S.Modal className="overlay">
-                    <div className="modal-content">
-                            <Link className="icon-close" to={'/perfil'}><img style={{width:'16px', height:'16px'}} src={iconclose} alt="close" /></Link>
-                        
-                        <div className="capa-item">
-                                <img src={cardapio?.foto} alt={''} />
-                            <div className="descricao">
-                            <h2>{cardapio?.nome}</h2>
-                            <p>
-                            {cardapio?.descricao}
-                            {cardapio?.descricao}
-                            </p>
-                            <br />
-                            <p>
-                            {cardapio?.porcao}
-                            </p>
-                                <div>
-                                    <Link to={'/cart'} className="close-modal" ><button>adicionar ao carrinho - R${cardapio?.preco}</button></Link>
-                                   
+    const openCart = () => {
+        dispatch(open())
+        dispatch(add(cardapio!))
+        closeModal()   
+    }
+
+
+    if(isOpen){
+       
+        return (
+            <S.ModalConatiner>
+            <S.OverlayModal onClick={() => setOpenModal!(!isOpen)}/>
+                <S.SideModal>
+                    <ul>
+                        <S.ItemModal>
+                            <img src={foto} alt="" />
+                            <div>
+                                <h3>{nome}</h3>
+                                <button className="button-close" onClick={() => setOpenModal!(!isOpen)}/>
+                                <div className='descricao-modal'>
+                                <p>
+                                {descricao?.padEnd(303,' vazio')}
+                                {descricao?.padEnd(303, ' vazio')}
+                                </p>
+                                <br />
+                                <p>{porcao}</p>
+                                <button onClick={openCart}>Adicionar ao carrinho - R${preco}</button>
                                 </div>
                             </div>
-
-                        </div>
-                </div>
-            </S.Modal>
-        </div> 
-        </S.ContainerModal>
-        
-        </>
+                        </S.ItemModal>
+                    </ul>
+                </S.SideModal>
+            </S.ModalConatiner>
     )
+    }else{
+       return  <></>
+    }
+    
+    
 }
 
 

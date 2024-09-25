@@ -1,14 +1,16 @@
-import { cores } from './../../styles';
 import styled from "styled-components";
+import { cores } from "../../styles";
+import lixeira from '../../assets/images/lixeiraCart.png'
 
 
-export const Overlay = styled.div`
-position:relative;
+export const OverlayCart = styled.div`
+position: absolute;
 top: 0;
 left: 0;
 width: 100%;
 height: 100%;
 background: rgba(0, 0, 0, 0.8);
+
 `
 
 export const CartContainer = styled.div`
@@ -17,98 +19,96 @@ top: 0;
 left: 0;
 width: 100%;
 height: 100%;
-display: flex;
+display: none;
 justify-content: flex-end;
+color: ${cores.textColotWhite};
 z-index: 1;
+
+&.is-open{
+    display: flex;
+}
 `
 
-export const SideCart = styled.aside`
-background-color: ${cores.backGroundCard};;
+export const SideBar = styled.aside`
+background-color: ${cores.backGroundCard};
 max-width: 360px;
 width: 100%;
 z-index: 1;
-
+padding: 32px 8px 0 8px;
 
 div{
-    background-color: ${cores.colorBackGround};
-    width: 344px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 32px 8px 16px 8px;   
-    
-    img{
-        margin: 8px 8px 16px 8px;
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
+    justify-content: space-between;
+}
+
+
+`
+
+export const Total = styled.p`
+font-size: 14px;
+font-weight: 700;
+line-height: 16px;
+margin-top: 40px;
+`
+
+export const ButtonCart = styled.button`
+    margin-top: 16px;
+    width: 344px;
+    height: 24px;
+    border: none;
+    background-color: ${cores.textColorPerfil};
+    color: ${cores.backGroundCard};
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    `
+
+
+export const ItemCart = styled.li`
+display: flex;
+width: 344px;
+height: 100px;
+margin-top: 16px;
+margin-bottom: 16px;
+background-color: ${cores.textColorPerfil};
+position: relative;
+
+img{
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin: 8px 8px 12px 8px;
+}
+
+div{
+    display: flex;
+    flex-direction: column;
+    color: ${cores.backGroundCard};
+    position: relative;
+    h3{
+        margin-top: 8px;
+        font-size: 18px;
+        font-weight: 900;
     }
 
-    div{
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        margin: 0 auto;
-        align-items: flex-start;
-       
-
-        h3{
-            margin-top: 8px;
-            font-size: 18px;
-            font-weight: 800;
-            line-height: 20px;
-        }
-
-        span{
-            margin-top: 16px;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 22px;
-            
-        }
-
-        span{
-
-            a{
-                .lixeira{
-                    width: 16px;
-                    height: 16px;
-                    margin-bottom: 8px;
-                    margin-right: 8px;
-                    position: fixed;
-                    right: 6px;
-                    bottom: 473px;
-                }
-            }
-        }
-        
+    span{
+        margin-top: 16px;
+        font-size: 14px;
+        margin-bottom: 33px;
     }
 
 }
 
-.total-compra{
-       background-color: ${cores.backGroundCard};
-       color: ${cores.textColorPerfil};
-       display: flex;
-       flex-direction: row;
-       justify-content: space-between;
-        font-size: 14px;
-        font-weight: 700;
-    }
+button{
+    background-image: url(${lixeira});
+    width: 16px;
+    height: 16px;
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    cursor: pointer;
+}
 
-   
-    .div-btn{
-        width: 100%;
-        cursor: pointer;
-        max-width: 344px;
-        height: 24px;
-        
-        a {
-            font-size: 14px;
-            font-weight: 700;
-            line-height: 16px;
-            color: ${cores.backGroundCard};
-        }
-    }
-   
 `

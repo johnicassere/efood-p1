@@ -16,6 +16,7 @@ export const Globalcss = createGlobalStyle`
     font-family: Roboto, sans-serif;
     text-decoration: none;
     list-style: none;
+    outline: none;
  }
 
 
@@ -23,11 +24,11 @@ export const Globalcss = createGlobalStyle`
     background-color: ${cores.colorBackGround};
     color: ${cores.textColorHome};
     width: 100%;
- }
-`
 
-export const Container = styled.div`
-   width: 100%;
-   margin: 0 auto;
-  
+
+    #root{
+      width: 100%;
+ }
+
+ }
 `

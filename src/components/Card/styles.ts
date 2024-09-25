@@ -10,6 +10,9 @@ border: 1px solid ${cores.backGroundCard};
 background-color: ${cores.textColotWhite};
 margin-bottom: 48px;
 
+@media(max-width:768px){
+       width: 360px;
+}
 
 
 .destaque{
@@ -33,20 +36,24 @@ p{
     font-weight: 400;
     line-height: 22px;
     margin-top: 16px;
-    padding: 8px;
+    margin-bottom: 16px;
+    padding: 0 8px ;
     
 }
 
-button{
+.btn-saiba-mais{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 82px;
     height: 24px;
     font-weight: 700;
     font-size: 14px;
     background-color: ${cores.backGroundCard};
     color: ${cores.textColotWhite};
-    border: none;
     cursor: pointer;
-    margin: 16px 8px 8px 8px;
+    margin: 16px 8px;
+
     
 }
 `
@@ -79,7 +86,7 @@ export const Title = styled.h2`
     font-size: 18px;
     font-weight: 700;
     line-height: 20px;
-    margin: 8px;
+    margin: 8px 7px 16px;
 
 `
 

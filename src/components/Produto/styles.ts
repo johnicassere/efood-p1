@@ -21,6 +21,7 @@ img{
     object-fit: cover;
     width: 100%;
     max-height: 167px;
+    cursor: pointer;
 }
 
 h2{
@@ -54,7 +55,6 @@ p{
     border: none;
     font-size: 14px;
     font-weight: 700;
-    line-height: 16px;
     cursor: pointer;
 }
 `
