@@ -7,20 +7,27 @@ width: 100%;
 height: 298px;
 margin-top: 120px;
 
-@media(max-width:1025px){
-        width: 1055px;
-   }
+@media(max-width:768px){
+    width: 768px;
+    margin-top: 60px;
+    
+}
+
+
 
 .logo{
     margin-top: 40px;
-    width: 125px;
+    
+    @media(max-width:768px){
+        border-radius:4px;
+}
 
 }
 
 .descricao-footer{
     text-align: center;
+    font-size: 10px;
     p{
-        font-size: 10px;
 
     }
 }
@@ -32,6 +39,12 @@ display: flex;
 
 li{
     margin: 32px 8px 80px 8px;
+
+    @media(max-width:768px){
+        margin: 26px 8px 30px 8px;
+    
+}
+
 }
 
 `

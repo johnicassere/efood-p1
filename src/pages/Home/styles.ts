@@ -7,19 +7,17 @@ grid-template-columns: 1fr 1fr;
 column-gap: 80px;
 margin: 0 auto;
 
-@media(max-width:1024px){
-    column-gap: 40px;
-    margin-left: calc(4%);
-}
 
 @media(max-width:768px){
-    column-gap: 280px;
+    width: 768px;
+    column-gap: 10px;
+    margin-left: 8px;
 }
 
 @media(max-width:426px){
-    column-gap: 80px;
-   margin-left: calc(40%);
-   
+    width: 425px;
+    grid-template-columns: 1fr;
+    margin: 0 calc(54%);
 }
 
 `

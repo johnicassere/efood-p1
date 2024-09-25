@@ -12,6 +12,8 @@ margin-bottom: 48px;
 
 @media(max-width:768px){
        width: 360px;
+       border-radius: 8px;
+       margin-left: 0 calc(60%);
 }
 
 

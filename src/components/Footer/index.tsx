@@ -18,7 +18,7 @@ const Footer = () => {
                         </S.Links>
                     </div>
                    <div className='descricao-footer'>
-                    <p>
+                        <p>
                             A efood é uma plataforma para divulgação de estabelecimentos, a 
                             responsabilidade pela entrega, qualidade <br />
                             dos produtos é toda do estabelecimento contratado. 
