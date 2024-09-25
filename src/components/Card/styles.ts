@@ -10,6 +10,10 @@ border: 1px solid ${cores.backGroundCard};
 background-color: ${cores.textColotWhite};
 margin-bottom: 48px;
 
+@media(max-width:768px){
+       width: 360px;
+}
+
 
 .destaque{
     background-image: url(${image});
