@@ -11,23 +11,32 @@ export const HeaderBar = styled.header`
 background-image: url(${fundo});
 padding: 40px;
 
+@media(max-width:1025px){
+        width: 1055px;
+   }
+
 a{
     color: ${cores.backGroundCard};
     cursor: pointer;
 }
 img{
     width: 125px;
+
+    @media(max-width:376px){
+      display: none;
+}
 }
 
 .container{
     display: flex;
     justify-content: space-around;
     align-items: center;
+
+    @media(max-width:769px){
+       justify-content: space-evenly;
+}
     
 }
-
-
-
 
 `
 export const Title = styled.h1`
@@ -56,6 +65,11 @@ export const HeaderImg = styled.div<Props>`
     position: relative;
     width: 100%;
     height: 280px;
+
+    @media(max-width:1025px){
+        width: 1055px;
+   }
+
     
 `
 
@@ -68,6 +82,7 @@ position: absolute;
 background: rgba(0, 0, 0, 0.5);
 
 
+
 div{
     width: 1024px;
     height: 280px;
@@ -75,6 +90,11 @@ div{
     margin: 0 auto;
     flex-direction: column;
     justify-content: space-between;
+
+    @media(max-width:769px){
+       justify-content: space-around;
+   
+    }
 
     .header-tipo{
         margin-top: 25px;
@@ -85,12 +105,18 @@ div{
     
 }
 
+
+
 `
 
 export const SubTitle = styled.h2<PropsWeight>`
     font-size: 32px;
     color: ${cores.textColotWhite};
     font-weight: ${(props) => props.weight === 'lighter' ? '100' : '900' }; 
+
+    @media(max-width:1025px){
+       margin-left: 150px;
+   }
 
 `
 

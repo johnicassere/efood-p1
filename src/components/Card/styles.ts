@@ -11,7 +11,6 @@ background-color: ${cores.textColotWhite};
 margin-bottom: 48px;
 
 
-
 .destaque{
     background-image: url(${image});
     width: 100%;
