@@ -7,9 +7,10 @@ import * as S from './styles'
 type Props = {
     openPedido?: boolean
     setOpenPedido?: (openPedido: boolean) => void
+    order_id?: string
 }
 
-const Pedido = ({ openPedido = false, setOpenPedido }:Props) => {
+const Pedido = ({ openPedido = false, setOpenPedido, order_id }:Props) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     
@@ -26,7 +27,7 @@ const Pedido = ({ openPedido = false, setOpenPedido }:Props) => {
             <S.ContainerPagamente className={openPedido ? 'is-open' : ''}>
                 <S.OverlayPagamento />
                  <S.SidePedido>
-                     <h4>Pedido realizado - {`ORDER_ID`}</h4>
+                     <h4>Pedido realizado - {`${order_id}`}</h4>
                      <p style={{fontSize:'14px', lineHeight: '22px', fontWeight:'400', marginBottom: '24px'}}>
                      Estamos felizes em informar que seu pedido já está em processo de preparação e, em breve, 
                      será entregue no endereço fornecido. 

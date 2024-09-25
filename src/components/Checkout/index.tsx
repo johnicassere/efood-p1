@@ -242,6 +242,7 @@ if(openCheckout){
         <Pedido 
             setOpenPedido={setPedido}
             openPedido={pedido}
+            order_id="1001001"
         />
         </>
   
