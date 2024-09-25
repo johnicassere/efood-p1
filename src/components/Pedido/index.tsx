@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { close } from '../../store/reducers/cart'
+import { close,removeAll } from '../../store/reducers/cart'
 import { useDispatch } from 'react-redux'
 import * as S from './styles'
 
@@ -8,23 +7,23 @@ import * as S from './styles'
 type Props = {
     openPedido?: boolean
     setOpenPedido?: (openPedido: boolean) => void
-    teste?: string
 }
 
-const Pedido = ({ openPedido, setOpenPedido }:Props) => {
+const Pedido = ({ openPedido = false, setOpenPedido }:Props) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const concluirPedido = () => {
-        dispatch(close())
-       setOpenPedido!(!openPedido)
+        setOpenPedido!(!openPedido)
+        dispatch(removeAll())
         navigate('/')
+        dispatch(close())
     }
 
         return(
-            <S.ContainerPagamente >
+            <S.ContainerPagamente className={openPedido ? 'is-open' : ''}>
                 <S.OverlayPagamento />
-                 <S.SidePedido style={{display:'none'}}>
+                 <S.SidePedido>
                      <h4>Pedido realizado - {`ORDER_ID`}</h4>
                      <p style={{fontSize:'14px', lineHeight: '22px', fontWeight:'400', marginBottom: '24px'}}>
                      Estamos felizes em informar que seu pedido já está em processo de preparação e, em breve, 

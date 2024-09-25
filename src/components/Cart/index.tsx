@@ -30,8 +30,15 @@ const removerProduto = (id: number) => {
 }
 
 const entrega = () => { 
-    setOpenEntrega(!openEntrega)
-    dispatch(close())
+    console.log(openEntrega, 'cart open entrega');
+    // if(openEntrega){
+    //     setOpenEntrega(!openEntrega)
+    //     dispatch(close())
+    // }
+         setOpenEntrega(!openEntrega)
+         dispatch(close())
+    
+    
 }
 
     return(

@@ -15,13 +15,13 @@ width: 100%;
 height: 100%;
 top: 0;
 left: 0;
-display: flex;
+display: none;
 justify-content: flex-end;
 color: ${cores.textColotWhite};
 z-index:1;
 
 &.is-open{
-    display: none;
+    display: flex;
 }
 
 h4{
@@ -107,21 +107,6 @@ color: ${cores.textColorPerfil};
 }
 `
 
-export const SidePagamento = styled.aside`
-background-color: ${cores.backGroundCard};
-max-width: 360px;
-width: 100%;
-top: 0;
-left: 0;
-z-index: 1;
-padding: 32px 8px 0 8px;
-color: ${cores.textColorPerfil};
-font-size: 14px;
-font-weight: 700;
-
- 
-`
-
 export const ButtonCheckout = styled.button`
     margin-top: 8px;
     width: 344px;
@@ -143,7 +128,7 @@ left: 0;
 display: none;
 justify-content: flex-end;
 color: ${cores.textColotWhite};
-z-index:1;
+z-index:2;
 
 &.is-open{
     display: flex;
@@ -223,4 +208,18 @@ input{
         
     }
    }
+`
+
+export const SidePagamento = styled.aside`
+background-color: ${cores.backGroundCard};
+max-width: 360px;
+width: 100%;
+top: 0;
+left: 0;
+z-index: 1;
+padding: 32px 8px 0 8px;
+color: ${cores.textColorPerfil};
+font-size: 14px;
+font-weight: 700;
+
 `

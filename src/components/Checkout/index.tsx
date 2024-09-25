@@ -2,7 +2,7 @@ import { usePurchaseMutation } from "../../services/api"
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import {useFormik} from 'formik'
-import { open } from '../../store/reducers/cart'
+import { open, close } from '../../store/reducers/cart'
 import InputMask from "react-input-mask"
 import Pedido from '../Pedido'
 import * as Yup from 'yup'
@@ -10,15 +10,19 @@ import * as S from './styles'
 
 
 type Props = {
-    openCheckout?: boolean
+    openCheckout?: boolean | false
     setOpenChekout?: (openCheckout: boolean) => void
+    
 }
 
-const Checkout = ({openCheckout, setOpenChekout}: Props) => {
+
+
+const Checkout = ({openCheckout = false, setOpenChekout}: Props) => {
     
     const [ purchase, {isLoading, isError, data} ] = usePurchaseMutation()
-    const [pagamento, setPagamento] = useState('')
-    const [entrega, setEntrega] = useState('')
+    const [pagamento, setPagamento] = useState<boolean>(false)
+    const [entrega, setEntrega] = useState<boolean>(false)
+    const [pedido, setPedido] = useState<boolean>(false)
     const dispatch = useDispatch()
 
    const openCart = () => {
@@ -26,24 +30,26 @@ const Checkout = ({openCheckout, setOpenChekout}: Props) => {
        setOpenChekout!(!openCheckout!)   
 }
 
-
-
-const continuarPagamento = () => {
-    setOpenChekout!(openCheckout!)
-    setEntrega('')
-    setPagamento('is-open') 
-    }
-
 const voltaEndereco = () => {
-    setPagamento('') 
-    setEntrega('')
+    setPagamento(!pagamento) 
+    setEntrega(!entrega)
 }
 
+const continuarPagamento = () => {
+    setEntrega(!entrega)
+    setPagamento(!pagamento) 
+    }
+
+
 const finalizarPagamento = () => {
-    //setOpenChekout!(!openCheckout!)
-    setEntrega('is-open')
-    setPagamento('')
-    console.log('finalizou');  
+    if(pagamento || entrega === false){
+        setPedido(!pedido)
+        setEntrega(entrega)
+        console.log(entrega , 'finalizando');
+        
+        setPagamento(!pagamento)
+        dispatch(close())  
+    }
     
 }
 
@@ -85,16 +91,12 @@ const form = useFormik({
     })
 })
 
-// const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-//     event.preventDefault()
-// }
-
 if(openCheckout){
 
    return (
-        <> {/*is-open fecha*/}
+        <> 
         <form onSubmit={form.handleSubmit} >
-            <S.CheckoutContainer className={`${entrega}`}>
+            <S.CheckoutContainer className={entrega ? 'is-open' : ''}>
             <S.OverlayCheckout onClick={openCart}/>
                 <S.SideCheckout>
                     <h4>Entrega</h4>
@@ -170,80 +172,80 @@ if(openCheckout){
                 </S.SideCheckout>
             </S.CheckoutContainer>
         
-        {/*is-open abre*/}
-        <S.PagamentoContainer className={`${pagamento}`}>
-            <S.OverlayCheckout />
-            <S.SidePagamento >
-            <h4>Pagamento - Valor a pagar R$ 190,90</h4>
         
-            <div className='nome-cartao'>
-                    <label htmlFor="nameCard">Nome no cartão</label>
-                    <input 
-                    type="text" 
-                    name='nameCard' 
-                    id='nameCard'
-                    value={form.values.nameCard}
-                    onChange={form.handleChange}
-                    />  
-                </div> 
-                <div className='campo-numero' >
-                    <div className='numero-cartao'>
-                        <label htmlFor="numeroCard" >Número do Cartão</label>
-                        <InputMask 
-                        mask={'9999.9999.9999.9999'} 
+        <S.PagamentoContainer className={pagamento ? 'is-open' : ''}>
+            <S.OverlayCheckout />
+                <S.SidePagamento >
+                <h4>Pagamento - Valor a pagar R$ 190,90</h4>
+            
+                <div className='nome-cartao'>
+                        <label htmlFor="nameCard">Nome no cartão</label>
+                        <input 
                         type="text" 
-                        name='numeroCard' 
-                        id='numeroCard'
-                        value={form.values.numeroCard}
+                        name='nameCard' 
+                        id='nameCard'
+                        value={form.values.nameCard}
                         onChange={form.handleChange}
-                        />
+                        />  
+                    </div> 
+                    <div className='campo-numero' >
+                        <div className='numero-cartao'>
+                            <label htmlFor="numeroCard" >Número do Cartão</label>
+                            <InputMask 
+                            mask={'9999.9999.9999.9999'} 
+                            type="text" 
+                            name='numeroCard' 
+                            id='numeroCard'
+                            value={form.values.numeroCard}
+                            onChange={form.handleChange}
+                            />
+                        </div>
+                        <div className="cvv-cartao" >
+                            <label htmlFor="cvv">CVV</label>
+                            <InputMask 
+                            mask={'999'} 
+                            type="text" 
+                            name='cvv' 
+                            id='cvv'
+                            value={form.values.cvv}
+                            onChange={form.handleChange}
+                            />
+                        </div>
+                        
                     </div>
-                    <div className="cvv-cartao" >
-                        <label htmlFor="cvv">CVV</label>
-                        <InputMask 
-                        mask={'999'} 
-                        type="text" 
-                        name='cvv' 
-                        id='cvv'
-                        value={form.values.cvv}
-                        onChange={form.handleChange}
-                        />
+                    <div className='data-cartao'>
+                        <div >
+                            <label htmlFor="mesVencimento">Mês de vencimento</label>
+                            <InputMask 
+                            mask={'99'} 
+                            type="text" 
+                            name='mesVencimento' 
+                            id='mesVencimento'
+                            value={form.values.mesVencimento}
+                            onChange={form.handleChange}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="anoVencimento">Ano de vencimento</label>
+                            <InputMask 
+                            mask={'9999'} 
+                            type="text" 
+                            name='anoVencimento' 
+                            id='anoVencimento'
+                            value={form.values.anoVencimento}
+                            onChange={form.handleChange} 
+                            />
+                        </div>
                     </div>
                     
-                </div>
-                <div className='data-cartao'>
-                    <div >
-                        <label htmlFor="mesVencimento">Mês de vencimento</label>
-                        <InputMask 
-                        mask={'99'} 
-                        type="text" 
-                        name='mesVencimento' 
-                        id='mesVencimento'
-                        value={form.values.mesVencimento}
-                        onChange={form.handleChange}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="anoVencimento">Ano de vencimento</label>
-                        <InputMask 
-                        mask={'9999'} 
-                        type="text" 
-                        name='anoVencimento' 
-                        id='anoVencimento'
-                        value={form.values.anoVencimento}
-                        onChange={form.handleChange} 
-                        />
-                    </div>
-                </div>
-                
-            <S.ButtonCheckout type='submit' onClick={finalizarPagamento}>Finalizar pagamento</S.ButtonCheckout>
-            <S.ButtonCheckout type='button' onClick={voltaEndereco}>Voltar para a edição de endereço</S.ButtonCheckout>
-            </S.SidePagamento>
-
+                <S.ButtonCheckout type='submit' onClick={finalizarPagamento}>Finalizar pagamento</S.ButtonCheckout>
+                <S.ButtonCheckout type='button' onClick={voltaEndereco}>Voltar para a edição de endereço</S.ButtonCheckout>
+                </S.SidePagamento>
         </S.PagamentoContainer>
         </form>
-        <Pedido
-        //teste={setPagamento(pagamento)!}
+        <Pedido 
+            setOpenPedido={setPedido}
+            openPedido={pedido}
         />
         </>
   
