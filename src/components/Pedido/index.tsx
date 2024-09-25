@@ -12,11 +12,13 @@ type Props = {
 const Pedido = ({ openPedido = false, setOpenPedido }:Props) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    
 
     const concluirPedido = () => {
         setOpenPedido!(!openPedido)
         dispatch(removeAll())
         navigate('/')
+        window.location.reload()
         dispatch(close())
     }
 

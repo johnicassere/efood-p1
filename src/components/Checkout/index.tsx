@@ -17,43 +17,38 @@ type Props = {
 
 
 
-const Checkout = ({openCheckout = false, setOpenChekout}: Props) => {
+const Checkout = ({openCheckout, setOpenChekout}: Props) => {
     
     const [ purchase, {isLoading, isError, data} ] = usePurchaseMutation()
-    const [pagamento, setPagamento] = useState<boolean>(false)
-    const [entrega, setEntrega] = useState<boolean>(false)
-    const [pedido, setPedido] = useState<boolean>(false)
+    const [pagamento = false, setPagamento] = useState<boolean>()
+    const [entrega = false, setEntrega] = useState<boolean>()
+    const [pedido = false, setPedido] = useState<boolean>()
     const dispatch = useDispatch()
+
+
 
    const openCart = () => {
        dispatch(open())
-       setOpenChekout!(!openCheckout!)   
+       setOpenChekout!(!openCheckout)   
 }
 
 const voltaEndereco = () => {
-    setPagamento(!pagamento) 
-    setEntrega(!entrega)
+    setPagamento(false) 
 }
 
 const continuarPagamento = () => {
-    setEntrega(!entrega)
-    setPagamento(!pagamento) 
+    setEntrega(false)
+    setPagamento(true) 
     }
 
 
 const finalizarPagamento = () => {
-    if(pagamento || entrega === false){
-        setPedido(!pedido)
-        setEntrega(entrega)
-        console.log(entrega , 'finalizando');
-        
-        setPagamento(!pagamento)
-        dispatch(close())  
-    }
-    
+        setEntrega(true)
+        setPagamento(false)
+        setPedido(true)
+        dispatch(close())   
+
 }
-
-
    
     
 const form = useFormik({
@@ -91,6 +86,7 @@ const form = useFormik({
     })
 })
 
+
 if(openCheckout){
 
    return (
@@ -98,7 +94,7 @@ if(openCheckout){
         <form onSubmit={form.handleSubmit} >
             <S.CheckoutContainer className={entrega ? 'is-open' : ''}>
             <S.OverlayCheckout onClick={openCart}/>
-                <S.SideCheckout>
+                <S.SideCheckout >
                     <h4>Entrega</h4>
                     <div className='form-checkout' >
                         <div className='label-container'>
@@ -238,7 +234,7 @@ if(openCheckout){
                         </div>
                     </div>
                     
-                <S.ButtonCheckout type='submit' onClick={finalizarPagamento}>Finalizar pagamento</S.ButtonCheckout>
+                <S.ButtonCheckout onClick={finalizarPagamento}>Finalizar pagamento</S.ButtonCheckout>
                 <S.ButtonCheckout type='button' onClick={voltaEndereco}>Voltar para a edição de endereço</S.ButtonCheckout>
                 </S.SidePagamento>
         </S.PagamentoContainer>

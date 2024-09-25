@@ -13,10 +13,12 @@ import * as S from './styles'
 
 
 const Cart = () => {
+
+   
     const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
-    const [openEntrega, setOpenEntrega] = useState<boolean>(false)
+    const [openEntrega = false, setOpenEntrega] = useState<boolean>()
     
-    const navigate = useNavigate()
+   
    const dispatch = useDispatch()
    
 
@@ -29,17 +31,12 @@ const removerProduto = (id: number) => {
     dispatch(remover(id))
 }
 
-const entrega = () => { 
-    console.log(openEntrega, 'cart open entrega');
-    // if(openEntrega){
-    //     setOpenEntrega(!openEntrega)
-    //     dispatch(close())
-    // }
-         setOpenEntrega(!openEntrega)
+const continuaEntrega = () => { 
+         setOpenEntrega(true)
          dispatch(close())
-    
-    
-}
+         
+ }
+        
 
     return(
         <>
@@ -70,7 +67,7 @@ const entrega = () => {
                     Voltar
                 </S.ButtonCart>
             ) : (
-                <S.ButtonCart onClick={entrega}>Continuar com a entrega</S.ButtonCart>)}
+                <S.ButtonCart onClick={continuaEntrega}>Continuar com a entrega</S.ButtonCart>)}
             </S.SideBar>
         </S.CartContainer>
 

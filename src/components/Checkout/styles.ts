@@ -15,13 +15,13 @@ width: 100%;
 height: 100%;
 top: 0;
 left: 0;
-display: none;
+display: flex;
 justify-content: flex-end;
 color: ${cores.textColotWhite};
 z-index:1;
 
 &.is-open{
-    display: flex;
+    display: none;
 }
 
 h4{
