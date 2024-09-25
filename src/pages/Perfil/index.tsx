@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom"
 import * as S from './styles'
 
 
-
 const Perfil = () => {
     const {id} = useParams()
     const {data: getRestaurante} = useGetRestauranteQuery(id)

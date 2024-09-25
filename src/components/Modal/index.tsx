@@ -1,5 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { RootReducer } from '../../store'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { open, add } from '../../store/reducers/cart'
 
@@ -16,12 +15,10 @@ type Props = {
 const Modal = ({ isOpen, cardapio, setOpenModal }: Props) => {
   
     const dispatch = useDispatch()
-    const navigate = useNavigate()
     const paramsId = cardapio.id?.toString()  
 
     const { nome, foto, descricao, porcao, preco } = cardapio
    
- 
     const closeModal = (id?: string ) => {
         setOpenModal!(!isOpen)
          
@@ -30,8 +27,7 @@ const Modal = ({ isOpen, cardapio, setOpenModal }: Props) => {
     const openCart = () => {
         dispatch(open())
         dispatch(add(cardapio!))
-        closeModal() 
-       
+        closeModal()   
     }
 
 
