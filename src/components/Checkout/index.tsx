@@ -1,8 +1,10 @@
 import { usePurchaseMutation } from "../../services/api"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import {useFormik} from 'formik'
 import { open, close } from '../../store/reducers/cart'
+import { precoTotal, parseToBrl } from '../../utils'
+import { RootReducer } from "../../store"
 import InputMask from "react-input-mask"
 import Pedido from '../Pedido'
 import * as Yup from 'yup'
@@ -20,12 +22,16 @@ type Props = {
 const Checkout = ({openCheckout, setOpenChekout}: Props) => {
     
     const [ purchase, {isLoading, isError, data} ] = usePurchaseMutation()
+    const { items } = useSelector((state: RootReducer) => state.cart)
     const [pagamento = false, setPagamento] = useState<boolean>()
     const [entrega = false, setEntrega] = useState<boolean>()
     const [pedido = false, setPedido] = useState<boolean>()
     const dispatch = useDispatch()
 
+    const totalCart = precoTotal(items)
 
+    console.log(totalCart, 'totalCart');
+    
 
    const openCart = () => {
        dispatch(open())
@@ -67,10 +73,6 @@ const form = useFormik({
         anoVencimento:''
 
     },
-    onSubmit: (values) => {
-        console.log(values);
-        
-    },
     validationSchema: Yup.object({
         receber: Yup.string().min(3,'O nome deve ter pelo menos 3 caracteres').required('Campo obrigatório'),
         endereco: Yup.string().required('Campo obrigatório'),
@@ -83,7 +85,11 @@ const form = useFormik({
         cvv: Yup.string().min(3,'O CVV deve ter pelo menos 3 caracteres').required('Campo obrigatório'), 
         mesVencimento: Yup.string().min(2,'O Mês deve ter pelo menos 2 caracteres').required('Campo obrigatório'), 
         anoVencimento: Yup.string().min(4,'O Ano deve ter pelo menos 4 caracteres').required('Campo obrigatório'), 
-    })
+    }),
+    onSubmit: (values) => {
+        console.log(values);
+        
+    },
 })
 
 
