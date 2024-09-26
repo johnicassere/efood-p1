@@ -43,7 +43,7 @@ input{
     margin-bottom: 8px;
     padding: 8px;
     height: 32px;
-    border: none;
+    border: ${cores.textColorPerfil};;
     color: #4b4b4b ;
     font-weight: 700;
     background-color: ${cores.textColorPerfil};

@@ -19,15 +19,15 @@ const Pedido = ({ openPedido = false, setOpenPedido, order_id }:Props) => {
         setOpenPedido!(!openPedido)
         dispatch(removeAll())
         navigate('/')
-        window.location.reload()
         dispatch(close())
+         window.location.reload()
     }
 
         return(
             <S.ContainerPagamente className={openPedido ? 'is-open' : ''}>
                 <S.OverlayPagamento />
                  <S.SidePedido>
-                     <h4>Pedido realizado - {`${order_id}`}</h4>
+                     <h4>Pedido realizado - {`{${order_id}}`}</h4>
                      <p style={{fontSize:'14px', lineHeight: '22px', fontWeight:'400', marginBottom: '24px'}}>
                      Estamos felizes em informar que seu pedido já está em processo de preparação e, em breve, 
                      será entregue no endereço fornecido. 

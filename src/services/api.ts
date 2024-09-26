@@ -35,31 +35,33 @@ type PurchasePayload = {
 
 const api = createApi({
     baseQuery: fetchBaseQuery({
-        baseUrl: `https://fake-api-tau.vercel.app/api/efood/restaurantes`
+        baseUrl: `https://fake-api-tau.vercel.app/api/efood`
     }),
 
     endpoints: (builder) => ({
         getFeaturedRestaurantes: builder.query<Restaurante[], void>({
-           query: () => '' 
+           query: () => '/restaurantes' 
         }),
         getRestaurante: builder.query<Restaurante, string | undefined>({
-            query: (id) => `${id}` 
+            query: (id) => `/restaurantes/${id}` 
          }),
         getPerfil: builder.query<Restaurante, string | undefined>({
-            query: (id) => `${id}`
+            query: (id) => `restaurantes/${id}`
         }),
         purchase: builder.mutation<any, PurchasePayload>({
             query: (body) => ({
-                url: 'checkout',
+                url: '/checkout',
                 method: 'POST',
-                body
+                body: body
 
             })
         })
     })   
 })
 
-export const { useGetFeaturedRestaurantesQuery, useGetPerfilQuery,useGetRestauranteQuery,usePurchaseMutation } = api
+export const { useGetFeaturedRestaurantesQuery, 
+    useGetPerfilQuery,useGetRestauranteQuery,
+    usePurchaseMutation } = api
 
 export default api
 

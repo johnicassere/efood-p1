@@ -24,11 +24,10 @@ export const Globalcss = createGlobalStyle`
     background-color: ${cores.colorBackGround};
     color: ${cores.textColorHome};
     width: 100%;
-
-
-    #root{
+    
+    /* #root{
       width: 100%;
- }
+   } */
 
  }
 `

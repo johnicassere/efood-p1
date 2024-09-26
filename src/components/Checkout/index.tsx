@@ -1,6 +1,6 @@
 import { usePurchaseMutation } from "../../services/api"
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {useFormik} from 'formik'
 import { open, close } from '../../store/reducers/cart'
 import { precoTotal, parseToBrl } from '../../utils'
@@ -26,51 +26,47 @@ const Checkout = ({openCheckout, setOpenChekout}: Props) => {
     const [pagamento = false, setPagamento] = useState<boolean>()
     const [entrega = false, setEntrega] = useState<boolean>()
     const [pedido = false, setPedido] = useState<boolean>()
+    const [order, setOrder] = useState('')
     const dispatch = useDispatch()
 
     const totalCart = precoTotal(items)
 
-    console.log(totalCart, 'totalCart');
-    
-
-   const openCart = () => {
-       dispatch(open())
-       setOpenChekout!(!openCheckout)   
-}
-
-const voltaEndereco = () => {
-    setPagamento(false) 
-}
-
-const continuarPagamento = () => {
-    setEntrega(false)
-    setPagamento(true) 
-    }
-
-
-const finalizarPagamento = () => {
-        setEntrega(true)
-        setPagamento(false)
-        setPedido(true)
-        dispatch(close())   
-
-}
-   
+    useEffect(()=>{
+        if(data){
+           return setOrder(data.orderId)
+        }
+       // console.log(order, 'order effect');
+       // return console.log('effect' , data);
+        
+    },[data])
     
 const form = useFormik({
     initialValues:{
-        receber: '',
-        endereco: '',
-        cidade:'',
-        cepCep: '',
-        numeroEndereco: '',
-        complemento:'',
+        receber: 'teste',
+        endereco: 'teste',
+        cidade:'rj',
+        cepCep: '99999-999',
+        numeroEndereco: '17',
+        complemento:'teste',
 
-        nameCard:'',
-        numeroCard:'',
-        cvv:'',
-        mesVencimento:'',
-        anoVencimento:''
+        nameCard:'name card',
+        numeroCard:'9999.9999.9999.9999',
+        cvv:'333',
+        mesVencimento:'12',
+        anoVencimento:'2024',
+
+        // receber: '',
+        // endereco: '',
+        // cidade:'',
+        // cepCep: '',
+        // numeroEndereco: '',
+        // complemento:'',
+
+        // nameCard:'',
+        // numeroCard:'',
+        // cvv:'',
+        // mesVencimento:'',
+        // anoVencimento:''
 
     },
     validationSchema: Yup.object({
@@ -87,11 +83,63 @@ const form = useFormik({
         anoVencimento: Yup.string().min(4,'O Ano deve ter pelo menos 4 caracteres').required('Campo obrigatório'), 
     }),
     onSubmit: (values) => {
-        console.log(values);
+        purchase({
+            delivery: {
+                receiver: values.receber,
+                address: {
+                    description: values.endereco,
+                    city: values.cidade,
+                    zipCode: values.cepCep,
+                    number: Number(values.numeroEndereco),
+                    complement: values.complemento,
+                }
+            },
+            payment:{
+                card:{
+                    name: values.nameCard,
+                    number: values.numeroCard,
+                    code: Number(values.cvv),
+                    expires:{
+                        month: Number(values.mesVencimento),
+                        year: Number(values.anoVencimento)
+                    }
+                }
+            },
+            products: [
+                {
+                    id: 1,
+                    preco: 100
+                }
+            ]
+        })
         
     },
 })
 
+
+
+const openCart = () => {
+    dispatch(open())
+    setOpenChekout!(!openCheckout)   
+}
+
+const voltaEndereco = () => {
+ setPagamento(false) 
+}
+
+const continuarPagamento = () => {
+ setEntrega(false)
+ setPagamento(true) 
+ }
+
+const finalizarPagamento = () => {
+    setEntrega(true)
+    setPagamento(false)
+    setPedido(true)
+    dispatch(close())    
+}
+
+console.log(typeof data, data, 'data type');
 
 if(openCheckout){
 
@@ -178,7 +226,7 @@ if(openCheckout){
         <S.PagamentoContainer className={pagamento ? 'is-open' : ''}>
             <S.OverlayCheckout />
                 <S.SidePagamento >
-                <h4>Pagamento - Valor a pagar R$ 190,90</h4>
+                <h4>Pagamento - Valor a pagar R$ {parseToBrl(precoTotal(items))}</h4>
             
                 <div className='nome-cartao'>
                         <label htmlFor="nameCard">Nome no cartão</label>
@@ -194,7 +242,7 @@ if(openCheckout){
                         <div className='numero-cartao'>
                             <label htmlFor="numeroCard" >Número do Cartão</label>
                             <InputMask 
-                            mask={'9999.9999.9999.9999'} 
+                            mask='9999.9999.9999.9999' 
                             type="text" 
                             name='numeroCard' 
                             id='numeroCard'
@@ -205,7 +253,7 @@ if(openCheckout){
                         <div className="cvv-cartao" >
                             <label htmlFor="cvv">CVV</label>
                             <InputMask 
-                            mask={'999'} 
+                            mask='999' 
                             type="text" 
                             name='cvv' 
                             id='cvv'
@@ -219,7 +267,7 @@ if(openCheckout){
                         <div >
                             <label htmlFor="mesVencimento">Mês de vencimento</label>
                             <InputMask 
-                            mask={'99'} 
+                            mask='99' 
                             type="text" 
                             name='mesVencimento' 
                             id='mesVencimento'
@@ -230,7 +278,7 @@ if(openCheckout){
                         <div>
                             <label htmlFor="anoVencimento">Ano de vencimento</label>
                             <InputMask 
-                            mask={'9999'} 
+                            mask='9999' 
                             type="text" 
                             name='anoVencimento' 
                             id='anoVencimento'
@@ -240,16 +288,18 @@ if(openCheckout){
                         </div>
                     </div>
                     
-                <S.ButtonCheckout onClick={finalizarPagamento}>Finalizar pagamento</S.ButtonCheckout>
+                <S.ButtonCheckout  onClick={finalizarPagamento}>Finalizar pagamento</S.ButtonCheckout>
                 <S.ButtonCheckout type='button' onClick={voltaEndereco}>Voltar para a edição de endereço</S.ButtonCheckout>
                 </S.SidePagamento>
         </S.PagamentoContainer>
         </form>
-        <Pedido 
-            setOpenPedido={setPedido}
-            openPedido={pedido}
-            order_id="1001001"
-        />
+        {!order ? (<><h4>Carregando...</h4></>) : (
+            <Pedido 
+                setOpenPedido={setPedido}
+                openPedido={pedido}
+                order_id={!order ? '{Preocessando ordem}' : order}
+            />
+         )}
         </>
   
    )

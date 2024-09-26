@@ -47,7 +47,6 @@
   "devDependencies": {
     "@types/node": "^22.5.4",
     "@types/react-input-mask": "^3.0.5",
-    "axios": "^1.7.7",
     "formik": "^2.4.6",
     "yup": "^1.4.0"
   }
