@@ -11,9 +11,9 @@ background-color: ${cores.textColotWhite};
 margin-bottom: 48px;
 
 @media(max-width:768px){
-       width: 360px;
-       border-radius: 8px;
-       margin-left: 0 calc(60%);
+       width: 520px;
+       border-radius: 4px;
+       margin-left: 8px;
 }
 
 
@@ -24,6 +24,7 @@ margin-bottom: 48px;
     display: flex;
     flex: row;
     justify-content: flex-end;  
+
 }
 
 a{

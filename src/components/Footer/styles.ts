@@ -8,7 +8,7 @@ height: 298px;
 margin-top: 120px;
 
 @media(max-width:768px){
-    width: 768px;
+    width: 1024px;
     margin-top: 60px;
     
 }
