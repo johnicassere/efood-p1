@@ -49,11 +49,11 @@ const formEntrega = useFormik({
         numeroEndereco: '',
         complemento:'',
 
-        // nameCard:'',
-        // numeroCard:'',
-        // cvv:'',
-        // mesVencimento:'',
-        // anoVencimento:''
+        nameCard:'',
+        numeroCard:'',
+        cvv:'',
+        mesVencimento:'',
+        anoVencimento:''
     },
     
     validationSchema: Yup.object({
@@ -64,11 +64,11 @@ const formEntrega = useFormik({
         numeroEndereco: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('Campo obrigatório'),
         complemento: Yup.string(), 
 
-        // nameCard: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('Campo obrigatório'), 
-        // numeroCard: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('Campo obrigatório'), 
-        // cvv: Yup.string().min(3,'O campo deve ter pelo menos 3 caracteres').max(3,'O campo deve ter no maximo 3 caracteres').required('Campo obrigatório'), 
-        // mesVencimento: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').max(2,'O campo deve ter no maximo 2 caracteres').required('Campo obrigatório'), 
-        // anoVencimento: Yup.string().min(4,'O campo deve ter pelo menos 4 caracteres').max(4,'O campo deve ter no maximo 4 caracteres').required('Campo obrigatório'),
+        nameCard: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('obrigatorio'), 
+        numeroCard: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('obrigatorio'), 
+        cvv: Yup.string().min(3,'O campo deve ter pelo menos 3 caracteres').max(3,'O campo deve ter no maximo 3 caracteres').required('obrigatorio'), 
+        mesVencimento: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').max(2,'O campo deve ter no maximo 2 caracteres').required('obrigatorio'), 
+        anoVencimento: Yup.string().min(4,'O campo deve ter pelo menos 4 caracteres').max(4,'O campo deve ter no maximo 4 caracteres').required('obrigatorio'),
     }),
     onSubmit: (values) => {
        // console.log(values);     
@@ -81,65 +81,6 @@ const formEntrega = useFormik({
                     zipCode: values.cepCep,
                     number: Number(values.numeroEndereco),
                     complement: values.complemento,
-                }
-            },
-            // payment:{
-            //     card:{
-            //         name: values.nameCard,
-            //         number: values.numeroCard,
-            //         code: Number(values.cvv),
-            //         expires:{
-            //             month: Number(values.mesVencimento),
-            //             year: Number(values.anoVencimento)
-            //         }
-            //     }
-            // },
-            products: [
-                {
-                    id: 1,
-                    preco: 100
-                }
-            ]
-        })
-        
-    },
-})
-
-
-const formPagamento = useFormik({
-    initialValues: {
-        receber: '',
-        endereco: '',
-        cidade: '',
-        cepCep: '',
-        numeroEndereco: '',
-        complemento: '',
-
-        nameCard:'',
-        numeroCard:'',
-        cvv:'',
-        mesVencimento:'',
-        anoVencimento:''
-    },
-    validationSchema: Yup.object({
-        nameCard: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('Campo obrigatório'), 
-        numeroCard: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('Campo obrigatório'), 
-        cvv: Yup.string().min(3,'O campo deve ter pelo menos 3 caracteres').max(3,'O campo deve ter no maximo 3 caracteres').required('Campo obrigatório'), 
-        mesVencimento: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').max(2,'O campo deve ter no maximo 2 caracteres').required('Campo obrigatório'), 
-        anoVencimento: Yup.string().min(4,'O campo deve ter pelo menos 4 caracteres').max(4,'O campo deve ter no maximo 4 caracteres').required('Campo obrigatório'),
-    }),
-
-    onSubmit: (values) => {
-       // console.log(formEntrega,'submit pagamento');     
-        purchase({
-            delivery: {
-                receiver: formEntrega.values.receber,
-                address: {
-                    description: formEntrega.values.endereco,
-                    city: formEntrega.values.cidade,
-                    zipCode: formEntrega.values.cepCep,
-                    number: Number(formEntrega.values.numeroEndereco),
-                    complement: formEntrega.values.complemento,
                 }
             },
             payment:{
@@ -186,20 +127,25 @@ const finalizarPagamento = () => {
     dispatch(close())    
 }
 
-const getErrorMessage = (fieldName: string) => {
+
+const getErrorMessage = (fieldName: string, message?: string) => {
     const isTouched = fieldName in formEntrega.touched
     const isInvalid = fieldName in formEntrega.errors
-    if(isTouched && isInvalid) return 'error'
-    return ''
+    if(isTouched && isInvalid){
+       return 'error' 
+    } 
+    return  ''   
 }
+
+
 
 if(openCheckout){
 
    return (
         <> 
         <form onSubmit={formEntrega.handleSubmit}>
-            <S.CheckoutContainer className={entrega ? 'is-open' : ''}>
-                <S.OverlayCheckout onClick={openCart}/>
+            <S.CheckoutContainer>
+                <S.OverlayCheckout onClick={openCart}/> 
                 <S.SideCheckout >
                     <h4>Entrega</h4>
                     <div className='form-checkout' >
@@ -279,17 +225,16 @@ if(openCheckout){
                         </div>
                     </div>
                         <div>
-                            <S.ButtonCheckout type="button" onClick={continuarPagamento}>Continuar com pagamento</S.ButtonCheckout>
-                            <S.ButtonCheckout  onClick={openCart}>Voltar para o carrinho</S.ButtonCheckout>          
+                            <S.ButtonCheckout onClick={continuarPagamento}>Continuar com pagamento</S.ButtonCheckout>
+                            <S.ButtonCheckout onClick={openCart}>Voltar para o carrinho</S.ButtonCheckout>          
                         </div>
                 </S.SideCheckout>
             </S.CheckoutContainer>
+
         
-                {/* {checkIputEntrega! && ( */}
-                <>
                 <S.PagamentoContainer className={pagamento ? 'is-open' : ''}>
                         <S.OverlayCheckout />
-                        <S.SidePagamento >
+                        <S.SidePagamento>
                         <h4>Pagamento - Valor a pagar R$ {parseToBrl(precoTotal(items))}</h4>
                     
                         <div className='nome-cartao'>
@@ -298,13 +243,13 @@ if(openCheckout){
                                 type="text" 
                                 name='nameCard' 
                                 id='nameCard'
-                                value={formPagamento.values.nameCard}
-                                onChange={formPagamento.handleChange}
-                                onBlur={formPagamento.handleBlur}
-                             // className={checkIputEntrega('nameCard') ? 'error' : ''}
+                                value={formEntrega.values.nameCard}
+                                onChange={formEntrega.handleChange}
+                                onBlur={formEntrega.handleBlur}
+                                 className={getErrorMessage('nameCard') ? 'error' : ''}
                                 />  
                             </div> 
-                            <div className='campo-numero' >
+                            <div className='campo-numero'>
                                 <div className='numero-cartao'>
                                     <label htmlFor="numeroCard" >Número do Cartão</label>
                                     <InputMask 
@@ -312,10 +257,10 @@ if(openCheckout){
                                     type="text" 
                                     name='numeroCard' 
                                     id='numeroCard'
-                                    value={formPagamento.values.numeroCard}
-                                    onChange={formPagamento.handleChange}
-                                    onBlur={formPagamento.handleBlur}
-                                // className={checkIputEntrega('numeroCard') ? 'error' : ''}
+                                    value={formEntrega.values.numeroCard}
+                                    onChange={formEntrega.handleChange}
+                                    onBlur={formEntrega.handleBlur}
+                                // className={getErrorMessage('numeroCard') ? 'error' : ''}
                                     />
                                 </div>
                                 <div className="cvv-cartao" >
@@ -325,10 +270,10 @@ if(openCheckout){
                                     type="text" 
                                     name='cvv' 
                                     id='cvv'
-                                    value={formPagamento.values.cvv}
-                                    onChange={formPagamento.handleChange}
-                                    onBlur={formPagamento.handleBlur}
-                                //  className={checkIputEntrega('cvv') ? 'error' : ''}
+                                    value={formEntrega.values.cvv}
+                                    onChange={formEntrega.handleChange}
+                                    onBlur={formEntrega.handleBlur}
+                                //  className={getErrorMessage('cvv') ? 'error' : ''}
                                     />
                                 </div>
                                 
@@ -341,10 +286,10 @@ if(openCheckout){
                                     type="text" 
                                     name='mesVencimento' 
                                     id='mesVencimento'
-                                    value={formPagamento.values.mesVencimento}
-                                    onChange={formPagamento.handleChange}
-                                    onBlur={formPagamento.handleBlur}
-                                // className={checkIputEntrega('mesVencimento') ? 'error' : ''}
+                                    value={formEntrega.values.mesVencimento}
+                                    onChange={formEntrega.handleChange}
+                                    onBlur={formEntrega.handleBlur}
+                                // className={getErrorMessage('mesVencimento') ? 'error' : ''}
                                     />
                                 </div>
                                 <div>
@@ -354,10 +299,10 @@ if(openCheckout){
                                     type="text" 
                                     name='anoVencimento' 
                                     id='anoVencimento'
-                                    value={formPagamento.values.anoVencimento}
-                                    onChange={formPagamento.handleChange}
-                                    onBlur={formPagamento.handleBlur}
-                                // className={checkIputEntrega('anoVencimento') ? 'error' : ''} 
+                                    value={formEntrega.values.anoVencimento}
+                                    onChange={formEntrega.handleChange}
+                                    onBlur={formEntrega.handleBlur}
+                                // className={getErrorMessage('anoVencimento') ? 'error' : ''} 
                                     />
                                 </div>
                             </div>
@@ -367,7 +312,6 @@ if(openCheckout){
                         </S.SidePagamento>
                 </S.PagamentoContainer>
                 
-                /*</>{/* </>)} */}*/
             </form>
             
                 {!order ? (<><h4>Carregando...</h4></>) : (
@@ -376,8 +320,6 @@ if(openCheckout){
                         openPedido={pedido}
                         order_id={!order ? '{Processando ordem}' : order}  
                     />
-                    
-        
                 )}
         </>
 )}
