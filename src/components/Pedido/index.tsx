@@ -8,6 +8,7 @@ type Props = {
     openPedido?: boolean
     setOpenPedido?: (openPedido: boolean) => void
     order_id?: string
+    type?: 'button' | 'submit'
 }
 
 const Pedido = ({ openPedido = false, setOpenPedido, order_id }:Props) => {

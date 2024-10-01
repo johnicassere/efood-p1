@@ -25,6 +25,7 @@ const Cart = () => {
 
 const closeCart = () => {
     dispatch(close())
+    window.location.reload()
 }
 
 const removerProduto = (id: number) => {

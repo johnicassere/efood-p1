@@ -37,6 +37,7 @@ label{
     line-height: 16px;
     margin-top: 8px;        
     margin-bottom: 8px;
+
 }
 
 input{
@@ -47,7 +48,12 @@ input{
     color: #4b4b4b ;
     font-weight: 700;
     background-color: ${cores.textColorPerfil};
+
+    &.error {
+        border: 4px solid red;
+    }
     
+
 }
 
 `
@@ -99,6 +105,10 @@ color: ${cores.textColorPerfil};
                 color: #4b4b4b;
                 font-weight: 700;
                 border: none;
+
+                &.error {
+                    border: 4px solid red;
+                }
                 
             }
         }
@@ -147,6 +157,7 @@ label{
     line-height: 16px;
     margin-top: 8px;        
     margin-bottom: 8px;
+
 }
 
 input{
@@ -157,14 +168,19 @@ input{
     color: #4b4b4b ;
     font-weight: 700;
     background-color: ${cores.textColorPerfil};
-    
+
 }
 
 
 .nome-cartao {
     display: flex;
-    flex-direction: column;
-    
+    flex-direction: column; 
+
+    .nameCard{
+        &.error {
+          border: 4px solid red;
+        }
+    }
    }
 
    .campo-numero{
@@ -173,10 +189,12 @@ input{
     margin-bottom: 8px;
     
         .numero-cartao{
-            input{
+            
+            #numeroCard{
                 max-width: 228px;
                 width: 100%;
                 margin-top: 8px;
+        
             }
         }
 
@@ -186,6 +204,7 @@ input{
             input{
                 margin-top: 8px;
                 width: 100%;
+                    
             }
         }
 
@@ -204,6 +223,7 @@ input{
 
         input{
             margin-top: 8px;
+           
         }
         
     }
