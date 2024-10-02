@@ -2,14 +2,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
 import { close, remover } from '../../store/reducers/cart'
 import { parseToBrl, precoTotal } from '../../utils'
-
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Checkout from '../Checkout'
 import * as S from './styles'
-
-
-
 
 
 const Cart = () => {

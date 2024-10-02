@@ -1,14 +1,14 @@
 import { usePurchaseMutation } from "../../services/api"
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { open, close } from '../../store/reducers/cart'
+import { open, close, removeAll } from '../../store/reducers/cart'
 import {useFormik} from 'formik'
 import { precoTotal, parseToBrl } from '../../utils'
 import { RootReducer } from "../../store"
 import InputMask from "react-input-mask"
-import Pedido from '../Pedido'
 import * as Yup from 'yup'
 import * as S from './styles'
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -18,31 +18,21 @@ type Props = {
     
 }
 
-
-
 const Checkout = ({openCheckout, setOpenChekout}: Props) => {
     
     const [ purchase, {isLoading, isError, data} ] = usePurchaseMutation()
     const { items } = useSelector((state: RootReducer) => state.cart)
-    const [pagamento = false, setPagamento] = useState<boolean>()
-    const [entrega = false, setEntrega] = useState<boolean>()
-    const [pedido = false, setPedido] = useState<boolean>()
+    const [display, setDisplay] = useState<'entrega' | 'pagamento' | 'concluir'>('entrega')
     const [order, setOrder] = useState('')
     const dispatch = useDispatch()
-    const [display, setDisplay] = useState<'entrega' | 'pagamento' | 'concluir'>('entrega')
-
-    
-
-    
-
+    const navigate = useNavigate()
 
     useEffect(()=>{
         if(data){
            return setOrder(data.orderId)
         }   
     },[data])
-
-    
+  
 const formEntrega = useFormik({
     initialValues:{
         receber: '',
@@ -109,28 +99,6 @@ const formEntrega = useFormik({
 })
 
 
-const openCart = () => {
-    dispatch(open())
-    setOpenChekout!(!openCheckout)   
-}
-
-const voltaEndereco = () => {
- setPagamento(false) 
-}
-
-const continuarPagamento = () => {
-        setEntrega(false)
-        setPagamento(true)
- }
-
-const finalizarPagamento = () => {
-    setEntrega(true)
-    setPagamento(false)
-    setPedido(true)
-    dispatch(close())    
-}
-
-
 const getErrorMessage = (fieldName: string, message?: string) => {
     const isTouched = fieldName in formEntrega.touched
     const isInvalid = fieldName in formEntrega.errors
@@ -140,6 +108,32 @@ const getErrorMessage = (fieldName: string, message?: string) => {
     return  ''   
 }
 
+
+const openCart = () => {
+    dispatch(open())
+    setOpenChekout!(!openCheckout)   
+}
+
+const voltaEndereco = () => {
+ setDisplay('entrega') 
+}
+
+
+const continuarPagamento = () => {
+    setDisplay('pagamento')    
+ }
+
+const finalizarPagamento = () => {
+    setDisplay('concluir')
+    dispatch(close())    
+}
+
+const concluirPedido = () => {
+    dispatch(removeAll())
+    navigate('/')
+    dispatch(close())
+     window.location.reload()
+}
 
 
 if(openCheckout){
@@ -173,7 +167,7 @@ if(openCheckout){
                             value={formEntrega.values.endereco}
                             onChange={formEntrega.handleChange}
                             onBlur={formEntrega.handleBlur}
-                           // className={getErrorMessage('endereco') ? 'error' : ''}
+                            className={getErrorMessage('endereco') ? 'error' : ''}
                             />
                         </div>
                         <div className='label-container'>
@@ -185,7 +179,7 @@ if(openCheckout){
                             value={formEntrega.values.cidade}
                             onChange={formEntrega.handleChange}
                             onBlur={formEntrega.handleBlur}
-                           // className={getErrorMessage('cidade') ? 'error' : ''}
+                            className={getErrorMessage('cidade') ? 'error' : ''}
                             />
                         </div>
                             <div className='cep'>
@@ -234,8 +228,9 @@ if(openCheckout){
                 </S.SideCheckout>
             </S.CheckoutContainer>
 
-        
-                <S.PagamentoContainer className={pagamento ? 'is-open' : ''}>
+            {display === 'pagamento' && 
+            <>
+                <S.PagamentoContainer>
                         <S.OverlayCheckout />
                         <S.SidePagamento>
                         <h4>Pagamento - Valor a pagar R$ {parseToBrl(precoTotal(items))}</h4>
@@ -310,27 +305,45 @@ if(openCheckout){
                                 </div>
                             </div>
                             
-                        <S.ButtonCheckout  onClick={finalizarPagamento}>Finalizar pagamento</S.ButtonCheckout>
+                        <S.ButtonCheckout type="submit"  onClick={finalizarPagamento}>Finalizar pagamento</S.ButtonCheckout>
                         <S.ButtonCheckout  onClick={voltaEndereco}>Voltar para a edição de endereço</S.ButtonCheckout>
                         </S.SidePagamento>
                 </S.PagamentoContainer>
-                
+            </>}
             </form>
+
+            {display === 'concluir' && <>
+            <S.PagamentoContainer>
+                <S.OverlayCheckout />
+                <S.SidePedido>
+                     <h4>Pedido realizado - {`{${order}}`}</h4>
+                     <p style={{fontSize:'14px', lineHeight: '22px', fontWeight:'400', marginBottom: '24px'}}>
+                     Estamos felizes em informar que seu pedido já está em processo de preparação e, em breve, 
+                     será entregue no endereço fornecido. 
+                     <br/>
+                     <br/>
+                     Gostaríamos de ressaltar que nossos entregadores não estão 
+                     autorizados a realizar cobranças extras.
+                     <br/> 
+                     <br/> 
+                     Lembre-se da importância de higienizar as mãos após o recebimento do pedido, 
+                     garantindo assim sua segurança e bem-estar durante a refeição.
+                     <br/>
+                     <br/>
+                     Esperamos que desfrute de uma deliciosa e agradável experiência gastronômica. 
+                     Bom apetite!
+                     </p>
+                     <S.ButtonPedido onClick={concluirPedido}>Concluir</S.ButtonPedido>
+                 </S.SidePedido>
+            </S.PagamentoContainer> 
+            </>}
             
-                {!order ? (<><h4>Carregando...</h4></>) : (
-                    <Pedido 
-                        setOpenPedido={setPedido}
-                        openPedido={pedido}
-                        order_id={!order ? '{Processando ordem}' : order}  
-                    />
-                )}
         </>
 )}
 
 return <></>
 
 } 
-
 
 export default Checkout
 
