@@ -29,6 +29,9 @@ const Checkout = ({openCheckout, setOpenChekout}: Props) => {
     const [pedido = false, setPedido] = useState<boolean>()
     const [order, setOrder] = useState('')
     const dispatch = useDispatch()
+    const [display, setDisplay] = useState<'entrega' | 'pagamento' | 'concluir'>('entrega')
+
+    
 
     
 
