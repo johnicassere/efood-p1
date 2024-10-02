@@ -20,10 +20,6 @@ justify-content: flex-end;
 color: ${cores.textColotWhite};
 z-index:1;
 
-&.is-open{
-    display: none;
-}
-
 h4{
    font-size: 16px;
    font-weight: 700;
@@ -52,9 +48,12 @@ input{
     &.error {
         border: 4px solid red;
     }
-    
-
 }
+
+#receber::placeholder{
+    text-align: center;
+        opacity: .3;
+    }
 
 `
 export const SideCheckout = styled.aside`
@@ -140,10 +139,6 @@ justify-content: flex-end;
 color: ${cores.textColotWhite};
 z-index:1;
 
-&.is-open{
-    display: flex;
-}
-
 h4{
    font-size: 16px;
    font-weight: 700;
@@ -169,8 +164,8 @@ input{
     font-weight: 700;
     background-color: ${cores.textColorPerfil};
 
+   
 }
-
 
 .nome-cartao {
     display: flex;
@@ -269,15 +264,4 @@ p{
     line-height: 22px;
 }
 
-`
-export const ButtonPedido = styled.button`
-    margin-top: 8px;
-    width: 344px;
-    height: 24px;
-    border: none;
-    background-color: ${cores.textColorPerfil};
-    color: ${cores.backGroundCard};
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
 `

@@ -3,24 +3,20 @@ import { RootReducer } from '../../store'
 import { close, remover } from '../../store/reducers/cart'
 import { parseToBrl, precoTotal } from '../../utils'
 import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import Checkout from '../Checkout'
 import * as S from './styles'
 
 
 const Cart = () => {
-
-   
     const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
     const [openEntrega = false, setOpenEntrega] = useState<boolean>()
-    
+    const { id } = useParams()
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
    
-   const dispatch = useDispatch()
-   
-
-
 const closeCart = () => {
     dispatch(close())
-    window.location.reload()
 }
 
 const removerProduto = (id: number) => {
@@ -29,8 +25,7 @@ const removerProduto = (id: number) => {
 
 const continuaEntrega = () => { 
          setOpenEntrega(true)
-         dispatch(close())
-         
+         dispatch(close())      
  }
         
 

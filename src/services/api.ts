@@ -18,7 +18,7 @@ type PurchasePayload = {
             complement: string
         }
     },
-    payment?: {
+    payment: {
         card: {
             name: string
             number: string

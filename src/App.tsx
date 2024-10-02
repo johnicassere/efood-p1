@@ -14,7 +14,7 @@ function App() {
        <Globalcss/>   
           <Rotas/>
           <Cart/>
-          {/* <Checkout/> */}
+          <Checkout/>
       </BrowserRouter>
   );
 }

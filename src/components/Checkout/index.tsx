@@ -14,15 +14,14 @@ import { useNavigate } from "react-router-dom"
 
 type Props = {
     openCheckout?: boolean | false
-    setOpenChekout?: (openCheckout: boolean) => void
-    
+    setOpenChekout?: (openCheckout: boolean) => void  
 }
 
 const Checkout = ({openCheckout, setOpenChekout}: Props) => {
     
-    const [ purchase, {isLoading, isError, data} ] = usePurchaseMutation()
+    const [ purchase, {data, isLoading, isError } ] = usePurchaseMutation()
     const { items } = useSelector((state: RootReducer) => state.cart)
-    const [display, setDisplay] = useState<'entrega' | 'pagamento' | 'concluir'>('entrega')
+    const [display, setDisplay] = useState<'entrega' | 'pagamento' | 'concluir' | ''>('entrega')
     const [order, setOrder] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -33,7 +32,7 @@ const Checkout = ({openCheckout, setOpenChekout}: Props) => {
         }   
     },[data])
   
-const formEntrega = useFormik({
+const form = useFormik({
     initialValues:{
         receber: '',
         endereco: '',
@@ -100,8 +99,8 @@ const formEntrega = useFormik({
 
 
 const getErrorMessage = (fieldName: string, message?: string) => {
-    const isTouched = fieldName in formEntrega.touched
-    const isInvalid = fieldName in formEntrega.errors
+    const isTouched = fieldName in form.touched
+    const isInvalid = fieldName in form.errors
     if(isTouched && isInvalid){
        return 'error' 
     } 
@@ -124,6 +123,7 @@ const continuarPagamento = () => {
  }
 
 const finalizarPagamento = () => {
+   // navigate('/checkout')
     setDisplay('concluir')
     dispatch(close())    
 }
@@ -132,15 +132,15 @@ const concluirPedido = () => {
     dispatch(removeAll())
     navigate('/')
     dispatch(close())
-     window.location.reload()
+    setOpenChekout!(!openCheckout)
+    // window.location.reload()
 }
-
 
 if(openCheckout){
 
    return (
         <> 
-        <form onSubmit={formEntrega.handleSubmit}>
+        <div >
             <S.CheckoutContainer>
                 <S.OverlayCheckout onClick={openCart}/> 
                 <S.SideCheckout >
@@ -152,9 +152,10 @@ if(openCheckout){
                             id='receber' 
                             name="receber" 
                             type="text" 
-                            value={formEntrega.values.receber}
-                            onChange={formEntrega.handleChange}
-                            onBlur={formEntrega.handleBlur}
+                            placeholder={`${!getErrorMessage('receber') ? 'Quem ira receber' : 'error'}`}
+                            value={form.values.receber}
+                            onChange={form.handleChange}
+                            onBlur={form.handleBlur}
                             className={getErrorMessage('receber') ? 'error' : ''}
                             />
                         </div>
@@ -164,9 +165,9 @@ if(openCheckout){
                             id='endereco' 
                             name='endereco' 
                             type="text" 
-                            value={formEntrega.values.endereco}
-                            onChange={formEntrega.handleChange}
-                            onBlur={formEntrega.handleBlur}
+                            value={form.values.endereco}
+                            onChange={form.handleChange}
+                            onBlur={form.handleBlur}
                             className={getErrorMessage('endereco') ? 'error' : ''}
                             />
                         </div>
@@ -176,9 +177,9 @@ if(openCheckout){
                             id='cidade' 
                             name='cidade' 
                             type="text" 
-                            value={formEntrega.values.cidade}
-                            onChange={formEntrega.handleChange}
-                            onBlur={formEntrega.handleBlur}
+                            value={form.values.cidade}
+                            onChange={form.handleChange}
+                            onBlur={form.handleBlur}
                             className={getErrorMessage('cidade') ? 'error' : ''}
                             />
                         </div>
@@ -190,9 +191,9 @@ if(openCheckout){
                                 id='cepCep' 
                                 name='cepCep' 
                                 type="text" 
-                                value={formEntrega.values.cepCep}
-                                onChange={formEntrega.handleChange}
-                                onBlur={formEntrega.handleBlur}
+                                value={form.values.cepCep}
+                                onChange={form.handleChange}
+                                onBlur={form.handleBlur}
                                // className={getErrorMessage('cepCep') ? 'error' : ''}
                                 />
                             </div>
@@ -202,9 +203,9 @@ if(openCheckout){
                                 id='numeroEndereco' 
                                 name='numeroEndereco' 
                                 type="text" 
-                                value={formEntrega.values.numeroEndereco}
-                                onChange={formEntrega.handleChange}
-                                onBlur={formEntrega.handleBlur}
+                                value={form.values.numeroEndereco}
+                                onChange={form.handleChange}
+                                onBlur={form.handleBlur}
                                // className={getErrorMessage('numeroEndereco') ? 'error' : ''}
                                 />
                             </div>
@@ -215,9 +216,9 @@ if(openCheckout){
                             id='complemento' 
                             name='complemento' 
                             type="text" 
-                            value={formEntrega.values.complemento}
-                            onChange={formEntrega.handleChange}
-                            onBlur={formEntrega.handleBlur}
+                            value={form.values.complemento}
+                            onChange={form.handleChange}
+                            onBlur={form.handleBlur}
                             />
                         </div>
                     </div>
@@ -227,7 +228,7 @@ if(openCheckout){
                         </div>
                 </S.SideCheckout>
             </S.CheckoutContainer>
-
+         
             {display === 'pagamento' && 
             <>
                 <S.PagamentoContainer>
@@ -241,9 +242,9 @@ if(openCheckout){
                                 type="text" 
                                 name='nameCard' 
                                 id='nameCard'
-                                value={formEntrega.values.nameCard}
-                                onChange={formEntrega.handleChange}
-                                onBlur={formEntrega.handleBlur}
+                                value={form.values.nameCard}
+                                onChange={form.handleChange}
+                                onBlur={form.handleBlur}
                                  className={getErrorMessage('nameCard') ? 'error' : ''}
                                 />  
                             </div> 
@@ -255,9 +256,9 @@ if(openCheckout){
                                     type="text" 
                                     name='numeroCard' 
                                     id='numeroCard'
-                                    value={formEntrega.values.numeroCard}
-                                    onChange={formEntrega.handleChange}
-                                    onBlur={formEntrega.handleBlur}
+                                    value={form.values.numeroCard}
+                                    onChange={form.handleChange}
+                                    onBlur={form.handleBlur}
                                 // className={getErrorMessage('numeroCard') ? 'error' : ''}
                                     />
                                 </div>
@@ -268,9 +269,9 @@ if(openCheckout){
                                     type="text" 
                                     name='cvv' 
                                     id='cvv'
-                                    value={formEntrega.values.cvv}
-                                    onChange={formEntrega.handleChange}
-                                    onBlur={formEntrega.handleBlur}
+                                    value={form.values.cvv}
+                                    onChange={form.handleChange}
+                                    onBlur={form.handleBlur}
                                 //  className={getErrorMessage('cvv') ? 'error' : ''}
                                     />
                                 </div>
@@ -284,9 +285,9 @@ if(openCheckout){
                                     type="text" 
                                     name='mesVencimento' 
                                     id='mesVencimento'
-                                    value={formEntrega.values.mesVencimento}
-                                    onChange={formEntrega.handleChange}
-                                    onBlur={formEntrega.handleBlur}
+                                    value={form.values.mesVencimento}
+                                    onChange={form.handleChange}
+                                    onBlur={form.handleBlur}
                                 // className={getErrorMessage('mesVencimento') ? 'error' : ''}
                                     />
                                 </div>
@@ -297,9 +298,9 @@ if(openCheckout){
                                     type="text" 
                                     name='anoVencimento' 
                                     id='anoVencimento'
-                                    value={formEntrega.values.anoVencimento}
-                                    onChange={formEntrega.handleChange}
-                                    onBlur={formEntrega.handleBlur}
+                                    value={form.values.anoVencimento}
+                                    onChange={form.handleChange}
+                                    onBlur={form.handleBlur}
                                 // className={getErrorMessage('anoVencimento') ? 'error' : ''} 
                                     />
                                 </div>
@@ -310,32 +311,34 @@ if(openCheckout){
                         </S.SidePagamento>
                 </S.PagamentoContainer>
             </>}
-            </form>
+            </div>
 
-            {display === 'concluir' && <>
+            {display === 'concluir' && 
+            <>
             <S.PagamentoContainer>
                 <S.OverlayCheckout />
-                <S.SidePedido>
-                     <h4>Pedido realizado - {`{${order}}`}</h4>
-                     <p style={{fontSize:'14px', lineHeight: '22px', fontWeight:'400', marginBottom: '24px'}}>
-                     Estamos felizes em informar que seu pedido já está em processo de preparação e, em breve, 
-                     será entregue no endereço fornecido. 
-                     <br/>
-                     <br/>
-                     Gostaríamos de ressaltar que nossos entregadores não estão 
-                     autorizados a realizar cobranças extras.
-                     <br/> 
-                     <br/> 
-                     Lembre-se da importância de higienizar as mãos após o recebimento do pedido, 
-                     garantindo assim sua segurança e bem-estar durante a refeição.
-                     <br/>
-                     <br/>
-                     Esperamos que desfrute de uma deliciosa e agradável experiência gastronômica. 
-                     Bom apetite!
-                     </p>
-                     <S.ButtonPedido onClick={concluirPedido}>Concluir</S.ButtonPedido>
-                 </S.SidePedido>
-            </S.PagamentoContainer> 
+                    <S.SidePedido>
+                        <h4>Pedido realizado - {`{${order}}`}</h4>
+                        <p style={{fontSize:'14px', lineHeight: '22px', fontWeight:'400', marginBottom: '24px'}}>
+                        Estamos felizes em informar que seu pedido já está em processo de preparação e, em breve, 
+                        será entregue no endereço fornecido. 
+                        <br/>
+                        <br/>
+                        Gostaríamos de ressaltar que nossos entregadores não estão 
+                        autorizados a realizar cobranças extras.
+                        <br/> 
+                        <br/> 
+                        Lembre-se da importância de higienizar as mãos após o recebimento do pedido, 
+                        garantindo assim sua segurança e bem-estar durante a refeição.
+                        <br/>
+                        <br/>
+                        Esperamos que desfrute de uma deliciosa e agradável experiência gastronômica. 
+                        Bom apetite!
+                        </p>
+                        <S.ButtonCheckout onClick={concluirPedido}>Concluir</S.ButtonCheckout>
+                    </S.SidePedido>
+                    </S.PagamentoContainer> 
+                
             </>}
             
         </>
