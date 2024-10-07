@@ -164,6 +164,10 @@ input{
     font-weight: 700;
     background-color: ${cores.textColorPerfil};
 
+    &.error {
+        border: 4px solid red;
+    }
+
    
 }
 
@@ -199,6 +203,10 @@ input{
             input{
                 margin-top: 8px;
                 width: 100%;
+
+                &.error {
+                     border: 4px solid red;
+                     }
                     
             }
         }
@@ -218,6 +226,9 @@ input{
 
         input{
             margin-top: 8px;
+            &.error {
+                border: 4px solid red;
+             }
            
         }
         

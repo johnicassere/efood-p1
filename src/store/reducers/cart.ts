@@ -27,7 +27,7 @@ const cartSlice = createSlice({
            state.items = state.items.filter((item) => item.id !== action.payload)
         },
         removeAll: (state) => {
-            state.items.length = state.items.length - state.items.length    
+            state.items = []    
         },
         open: (state) => {
             state.isOpen = true
