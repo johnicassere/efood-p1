@@ -34,18 +34,18 @@ const Checkout = ({openCheckout, setOpenChekout}: Props) => {
   
 const form = useFormik({
     initialValues:{
-        receber: 'johni',
-        endereco: 'rua teste',
-        cidade:'MS',
-        cepCep: '00000000',
-        numeroEndereco: '17',
-        complemento:'bla',
+        receber: '',
+        endereco: '',
+        cidade:'',
+        cepCep: '',
+        numeroEndereco: '',
+        complemento:'',
 
         nameCard:'',
-        numeroCard:'0000000000000000',
-        cvv:'333',
-        mesVencimento:'12',
-        anoVencimento:'2024'
+        numeroCard:'',
+        cvv:'',
+        mesVencimento:'',
+        anoVencimento:''
     },
     
     validationSchema: Yup.object({
