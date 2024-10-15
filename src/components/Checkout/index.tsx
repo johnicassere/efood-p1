@@ -41,12 +41,6 @@ const form = useFormik({
         numeroEndereco: '',
         complemento:'',
 
-        nameCard:'',
-        numeroCard:'',
-        cvv:'',
-        mesVencimento:'',
-        anoVencimento:''
-
     },
     
     validationSchema: Yup.object({
@@ -77,17 +71,17 @@ const form = useFormik({
                     complement: values.complemento,
                 }
             },
-            payment:{
-                card:{
-                    name:'',
-                    number: '',
-                    code:333,
-                    expires:{
-                        month:12,
-                        year:24
-                    },
-                }
-            },
+            // payment:{
+            //     card:{
+            //         name:'',
+            //         number: '',
+            //         code:333,
+            //         expires:{
+            //             month:12,
+            //             year:24
+            //         },
+            //     }
+            // },
             products: [
                 {
                     id: 1,
@@ -101,12 +95,6 @@ const form = useFormik({
 
 const form2 = useFormik({
     initialValues:{
-        receber: form.values.receber,
-        endereco: '',
-        cidade:'',
-        cepCep: '',
-        numeroEndereco: '',
-        complemento:'',
 
         nameCard:'',
         numeroCard:'',
@@ -123,16 +111,6 @@ const form2 = useFormik({
     }),
     onSubmit: (values) => {    
         purchase({
-            delivery: {
-                receiver: form.values.receber,
-                address: {
-                    description: form.values.endereco,
-                    city: form.values.cidade,
-                    zipCode: form.values.cepCep,
-                    number: Number(form.values.numeroEndereco),
-                    complement: form.values.complemento,
-                }
-            },
             payment:{
                 card:{
                     name: values.nameCard,
@@ -333,9 +311,9 @@ if(openCheckout){
                                 type="text" 
                                 name='nameCard' 
                                 id='nameCard'
-                                value={form.values.nameCard}
-                                onChange={form.handleChange}
-                                onBlur={form.handleBlur}
+                                value={form2.values.nameCard}
+                                onChange={form2.handleChange}
+                                onBlur={form2.handleBlur}
                                 className={checkIputHasError('nameCard') ? 'error' : ''}
                                 />  
                             </div> 
@@ -347,9 +325,9 @@ if(openCheckout){
                                     type="text" 
                                     name='numeroCard' 
                                     id='numeroCard'
-                                    value={form.values.numeroCard}
-                                    onChange={form.handleChange}
-                                    onBlur={form.handleBlur}
+                                    value={form2.values.numeroCard}
+                                    onChange={form2.handleChange}
+                                    onBlur={form2.handleBlur}
                                     //className={checkIputHasError('numeroCard') ? 'error' : ''}
                                     />
                                 </div>
@@ -360,9 +338,9 @@ if(openCheckout){
                                     type="text" 
                                     name='cvv' 
                                     id='cvv'
-                                    value={form.values.cvv}
-                                    onChange={form.handleChange}
-                                    onBlur={form.handleBlur}
+                                    value={form2.values.cvv}
+                                    onChange={form2.handleChange}
+                                    onBlur={form2.handleBlur}
                                     //className={checkIputHasError('cvv') ? 'error' : ''}
                                     />
                                 </div>
@@ -376,8 +354,8 @@ if(openCheckout){
                                     type="text" 
                                     name='mesVencimento' 
                                     id='mesVencimento'
-                                    value={form.values.mesVencimento}
-                                    onChange={form.handleChange}
+                                    value={form2.values.mesVencimento}
+                                    onChange={form2.handleChange}
                                     onBlur={form2.handleBlur}
                                     //className={checkIputHasError('mesVencimento') ? 'error' : ''}
                                     />
@@ -389,9 +367,9 @@ if(openCheckout){
                                     type="text" 
                                     name='anoVencimento' 
                                     id='anoVencimento'
-                                    value={form.values.anoVencimento}
-                                    onChange={form.handleChange}
-                                    onBlur={form.handleBlur}
+                                    value={form2.values.anoVencimento}
+                                    onChange={form2.handleChange}
+                                    onBlur={form2.handleBlur}
                                     className={checkIputHasError('anoVencimento') ? 'error' : ''} 
                                     />
                                 </div>
