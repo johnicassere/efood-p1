@@ -171,11 +171,26 @@ input{
    
 }
 
+
+`
+
+export const SidePagamento = styled.aside`
+background-color: ${cores.backGroundCard};
+max-width: 360px;
+width: 100%;
+top: 0;
+left: 0;
+z-index: 1;
+padding: 32px 8px 0 8px;
+color: ${cores.textColorPerfil};
+font-size: 14px;
+font-weight: 700;
+
 .nome-cartao {
     display: flex;
     flex-direction: column; 
-
-    .nameCard{
+    
+    input{
         &.error {
           border: 4px solid red;
         }
@@ -225,6 +240,8 @@ input{
         margin-bottom: 24px;
 
         input{
+            width: 155px;
+            height: 32px;
             margin-top: 8px;
             &.error {
                 border: 4px solid red;
@@ -234,19 +251,6 @@ input{
         
     }
    }
-`
-
-export const SidePagamento = styled.aside`
-background-color: ${cores.backGroundCard};
-max-width: 360px;
-width: 100%;
-top: 0;
-left: 0;
-z-index: 1;
-padding: 32px 8px 0 8px;
-color: ${cores.textColorPerfil};
-font-size: 14px;
-font-weight: 700;
 
 `
 
