@@ -21,7 +21,7 @@ const Checkout = ({openCheckout, setOpenChekout}: Props) => {
     
     const [ purchase, {data, isLoading, isSuccess } ] = usePurchaseMutation()
     const { items } = useSelector((state: RootReducer) => state.cart)
-    const [display, setDisplay] = useState<'entrega' | 'pagamento' | ''>('entrega')
+    const [display, setDisplay] = useState<'entrega' | 'pagamento'>('entrega')
     const [order, setOrder] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -31,6 +31,13 @@ const Checkout = ({openCheckout, setOpenChekout}: Props) => {
            return setOrder(data.orderId)
         }   
     },[data])
+
+    const checkIputHasError = (fieldName: string) => {
+        const isTouched = fieldName in form.touched
+        const isInvalid = fieldName in form.errors
+        const hasError = isTouched && isInvalid
+        return hasError   
+    }
   
 const form = useFormik({
     initialValues:{
@@ -40,6 +47,12 @@ const form = useFormik({
         cepCep: '',
         numeroEndereco: '',
         complemento:'',
+
+        nameCard:'',
+        numeroCard:'',
+        cvv:'',
+        mesVencimento:'',
+        anoVencimento:''
 
     },
     
@@ -51,11 +64,11 @@ const form = useFormik({
         numeroEndereco: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('Campo obrigatório'),
         complemento: Yup.string(),
 
-        // nameCard: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('Campo Obrigatorio'), 
-        // numeroCard: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('Campo Obrigatorio'), 
-        // cvv: Yup.string().required('Campo Obrigatorio'), 
-        // mesVencimento: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').max(2,'O campo deve ter no maximo 2 caracteres').required('Campo Obrigatorio'), 
-        // anoVencimento: Yup.string().required('Campo Obrigatorio'),
+        nameCard: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('Campo Obrigatorio'), 
+        numeroCard: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('Campo Obrigatorio'), 
+        cvv: Yup.string().required('Campo Obrigatorio'), 
+        mesVencimento: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').max(2,'O campo deve ter no maximo 2 caracteres').required('Campo Obrigatorio'), 
+        anoVencimento: Yup.string().required('Campo Obrigatorio'),
         
         
     }),
@@ -71,55 +84,15 @@ const form = useFormik({
                     complement: values.complemento,
                 }
             },
-            // payment:{
-            //     card:{
-            //         name:'',
-            //         number: '',
-            //         code:333,
-            //         expires:{
-            //             month:12,
-            //             year:24
-            //         },
-            //     }
-            // },
-            products: [
-                {
-                    id: 1,
-                    preco: 100
-                }
-            ]
-        })
-        
-    },
-})
-
-const form2 = useFormik({
-    initialValues:{
-
-        nameCard:'',
-        numeroCard:'',
-        cvv:'',
-        mesVencimento:'',
-        anoVencimento:''
-    },
-    validationSchema: Yup.object({
-        nameCard: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('Campo Obrigatorio'), 
-        numeroCard: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').required('Campo Obrigatorio'), 
-        cvv: Yup.string().required('Campo Obrigatorio'), 
-        mesVencimento: Yup.string().min(2,'O campo deve ter pelo menos 2 caracteres').max(2,'O campo deve ter no maximo 2 caracteres').required('Campo Obrigatorio'), 
-        anoVencimento: Yup.string().required('Campo Obrigatorio'),
-    }),
-    onSubmit: (values) => {    
-        purchase({
             payment:{
                 card:{
-                    name: values.nameCard,
-                    number: values.numeroCard,
-                    code: Number(values.cvv),
+                    name:'',
+                    number: '',
+                    code:333,
                     expires:{
-                        month: Number(values.mesVencimento),
-                        year: Number(values.anoVencimento)
-                    }
+                        month:12,
+                        year:24
+                    },
                 }
             },
             products: [
@@ -134,14 +107,6 @@ const form2 = useFormik({
 })
 
 
-const checkIputHasError = (fieldName: string) => {
-    const isTouched = fieldName in form.touched
-    const isInvalid = fieldName in form.errors
-    const hasError = isTouched && isInvalid
-    return hasError   
-}
-
-
 const openCart = () => {
     dispatch(open())
     setOpenChekout!(!openCheckout)   
@@ -151,17 +116,38 @@ const voltaEndereco = () => {
  setDisplay('entrega') 
 }
 
+type PropsForm = |
+    'receber' | 'endereco' |
+    'cidade' | 'cepCep' |
+    'numeroEndereco' | 'complemento'
+
+
 
 const continuarPagamento = () => { 
-    if(!checkIputHasError){
+    const camposForm: PropsForm[] = [
+       "receber","endereco","cepCep", "cidade", "numeroEndereco", "complemento"
+    ]
+        
+    const camposPreenchidos = camposForm.every((item) =>{
+        console.log(item , 'item');
+        
+        const isTouched =  form.touched[item]
+        const isInvalid =  !form.errors[item]
+        const hasError = isTouched && isInvalid
+        return hasError
+    })
+
+    if(camposPreenchidos){
         setDisplay('pagamento')        
+    }else{
+        console.log(form.errors);
+        
     }
-    console.log('error ');
     
  }
 
 const finalizarPagamento = () => {
-    form.handleSubmit()   
+      form.handleSubmit()
 }
 
 const concluirPedido = () => {
@@ -172,14 +158,12 @@ const concluirPedido = () => {
      window.location.reload()
 }
 
-console.log(form, 'form ');
-console.log(form2, 'form2 ');
-
 
 if(openCheckout){
 
    return (
         <> 
+        <div> 
            {isSuccess && data ? (
             <>
             <S.PagamentoContainer>
@@ -207,186 +191,184 @@ if(openCheckout){
             </S.PagamentoContainer> 
             </> 
             ) : (
-             <>         
-            <form onClick={form2.handleChange}>          
-            <S.CheckoutContainer>
-                <S.OverlayCheckout onClick={openCart}/> 
-                <S.SideCheckout >
-                    <h4>Entrega</h4>
-                    <div className='form-checkout' >
-                        <div className='label-container'>
-                            <label htmlFor="receber">Quem ira receber</label>
-                            <input 
-                            id='receber' 
-                            name="receber" 
-                            type="text" 
-                            placeholder={`${!checkIputHasError('receber') ? 'Quem ira receber' : form.errors.receber}`}
-                            value={form.values.receber}
-                            onChange={form.handleChange}
-                            onBlur={form.handleBlur}
-                            className={checkIputHasError('receber') ? 'error' : ''}
-                            />
-                        </div>
-                        <div className='label-container'>
-                            <label htmlFor="endereco">Endereço</label>
-                            <input 
-                            id='endereco' 
-                            name='endereco' 
-                            type="text" 
-                            value={form.values.endereco}
-                            onChange={form.handleChange}
-                            onBlur={form.handleBlur}
-                            className={checkIputHasError('endereco') ? 'error' : ''}
-                            />
-                        </div>
-                        <div className='label-container'>
-                            <label htmlFor="cidade">Cidade</label>
-                            <input 
-                            id='cidade' 
-                            name='cidade' 
-                            type="text" 
-                            value={form.values.cidade}
-                            onChange={form.handleChange}
-                            onBlur={form.handleBlur}
-                            className={checkIputHasError('cidade') ? 'error' : ''}
-                            />
-                        </div>
-                            <div className='cep'>
-                            <div>
-                                <label htmlFor="cepCep">CEP</label>
-                                <input 
-                                //mask="99999-999" 
-                                id='cepCep' 
-                                name='cepCep' 
-                                type="text" 
-                                value={form.values.cepCep}
-                                onChange={form.handleChange}
-                                onBlur={form.handleBlur}
-                                className={checkIputHasError('cepCep') ? 'error' : ''}
-                                />
+             <>  
+             {display === 'entrega' && 
+             <>       
+                    <S.CheckoutContainer>
+                        <S.OverlayCheckout onClick={openCart}/> 
+                        <S.SideCheckout >
+                            <h4>Entrega</h4>
+                            <div className='form-checkout' >
+                                <div className='label-container'>
+                                    <label htmlFor="receber">Quem ira receber</label>
+                                    <input 
+                                    id='receber' 
+                                    name="receber" 
+                                    type="text" 
+                                // placeholder={`${!checkIputHasError('receber') ? 'Quem ira receber' : form.errors.receber}`}
+                                    value={form.values.receber}
+                                    onChange={form.handleChange}
+                                    onBlur={form.handleBlur}
+                                    className={checkIputHasError('receber') ? 'error' : ''}
+                                    />
+                                </div>
+                                <div className='label-container'>
+                                    <label htmlFor="endereco">Endereço</label>
+                                    <input 
+                                    id='endereco' 
+                                    name='endereco' 
+                                    type="text" 
+                                    value={form.values.endereco}
+                                    onChange={form.handleChange}
+                                    onBlur={form.handleBlur}
+                                // className={checkIputHasError('endereco') ? 'error' : ''}
+                                    />
+                                </div>
+                                <div className='label-container'>
+                                    <label htmlFor="cidade">Cidade</label>
+                                    <input 
+                                    id='cidade' 
+                                    name='cidade' 
+                                    type="text" 
+                                    value={form.values.cidade}
+                                    onChange={form.handleChange}
+                                    onBlur={form.handleBlur}
+                                // className={checkIputHasError('cidade') ? 'error' : ''}
+                                    />
+                                </div>
+                                    <div className='cep'>
+                                    <div>
+                                        <label htmlFor="cepCep">CEP</label>
+                                        <InputMask 
+                                        mask="99999-999" 
+                                        id='cepCep' 
+                                        name='cepCep' 
+                                        type="text" 
+                                        value={form.values.cepCep}
+                                        onChange={form.handleChange}
+                                        onBlur={form.handleBlur}
+                                    //  className={checkIputHasError('cepCep') ? 'error' : ''}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="numeroEndereco">Número</label>
+                                        <input 
+                                        id='numeroEndereco' 
+                                        name='numeroEndereco' 
+                                        type="text" 
+                                        value={form.values.numeroEndereco}
+                                        onChange={form.handleChange}
+                                        onBlur={form.handleBlur}
+                                    // className={checkIputHasError('numeroEndereco') ? 'error' : ''}
+                                        />
+                                    </div>
+                                    </div>
+                                <div className='label-container'>
+                                    <label htmlFor="complemento">Complemento (opcional)</label>
+                                    <input 
+                                    id='complemento' 
+                                    name='complemento' 
+                                    type="text" 
+                                    value={form.values.complemento}
+                                    onChange={form.handleChange}
+                                    onBlur={form.handleBlur}
+                                    />
+                                </div>
                             </div>
-                            <div>
-                                <label htmlFor="numeroEndereco">Número</label>
-                                <input 
-                                id='numeroEndereco' 
-                                name='numeroEndereco' 
-                                type="text" 
-                                value={form.values.numeroEndereco}
-                                onChange={form.handleChange}
-                                onBlur={form.handleBlur}
-                                className={checkIputHasError('numeroEndereco') ? 'error' : ''}
-                                />
-                            </div>
-                            </div>
-                        <div className='label-container'>
-                            <label htmlFor="complemento">Complemento (opcional)</label>
-                            <input 
-                            id='complemento' 
-                            name='complemento' 
-                            type="text" 
-                            value={form.values.complemento}
-                            onChange={form.handleChange}
-                            onBlur={form.handleBlur}
-                            />
-                        </div>
-                    </div>
-                        <div> 
-                            <S.ButtonCheckout onClick={continuarPagamento}>Continuar com pagamento</S.ButtonCheckout>    
-                            <S.ButtonCheckout onClick={openCart}>Voltar para o carrinho</S.ButtonCheckout>          
-                        </div>
-                </S.SideCheckout>
-            </S.CheckoutContainer>
-            </form>
+                                <div> 
+                                    <S.ButtonCheckout onClick={continuarPagamento}>Continuar com pagamento</S.ButtonCheckout>    
+                                    <S.ButtonCheckout onClick={openCart}>Voltar para o carrinho</S.ButtonCheckout>          
+                                </div>
+                        </S.SideCheckout>
+                    </S.CheckoutContainer>
+            </>}
 
             {display === 'pagamento' && 
-            <>            
-            <form onSubmit={form2.handleSubmit}>
-                <S.PagamentoContainer>
-                        <S.OverlayCheckout />
-                        <S.SidePagamento>
-                        <h4>Pagamento - Valor a pagar R$ {parseToBrl(precoTotal(items))}</h4>                    
-                        <div className='nome-cartao'>
-                                <label htmlFor="nameCard">Nome no cartão</label>
-                                <input 
-                                type="text" 
-                                name='nameCard' 
-                                id='nameCard'
-                                value={form2.values.nameCard}
-                                onChange={form2.handleChange}
-                                onBlur={form2.handleBlur}
-                                className={checkIputHasError('nameCard') ? 'error' : ''}
-                                />  
-                            </div> 
-                            <div className='campo-numero'>
-                                <div className='numero-cartao'>
-                                    <label htmlFor="numeroCard" >Número do Cartão</label>
-                                    <InputMask 
-                                    mask='9999.9999.9999.9999' 
-                                    type="text" 
-                                    name='numeroCard' 
-                                    id='numeroCard'
-                                    value={form2.values.numeroCard}
-                                    onChange={form2.handleChange}
-                                    onBlur={form2.handleBlur}
-                                    //className={checkIputHasError('numeroCard') ? 'error' : ''}
-                                    />
-                                </div>
-                                <div className="cvv-cartao" >
-                                    <label htmlFor="cvv">CVV</label>
-                                    <InputMask 
-                                    mask='999' 
-                                    type="text" 
-                                    name='cvv' 
-                                    id='cvv'
-                                    value={form2.values.cvv}
-                                    onChange={form2.handleChange}
-                                    onBlur={form2.handleBlur}
-                                    //className={checkIputHasError('cvv') ? 'error' : ''}
-                                    />
-                                </div>
-                                
-                            </div>
-                            <div className='data-cartao'>
-                                <div >
-                                    <label htmlFor="mesVencimento">Mês de vencimento</label>
-                                    <InputMask 
-                                    mask='99' 
-                                    type="text" 
-                                    name='mesVencimento' 
-                                    id='mesVencimento'
-                                    value={form2.values.mesVencimento}
-                                    onChange={form2.handleChange}
-                                    onBlur={form2.handleBlur}
-                                    //className={checkIputHasError('mesVencimento') ? 'error' : ''}
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="anoVencimento">Ano de vencimento</label>
-                                    <InputMask 
-                                    mask='99' 
-                                    type="text" 
-                                    name='anoVencimento' 
-                                    id='anoVencimento'
-                                    value={form2.values.anoVencimento}
-                                    onChange={form2.handleChange}
-                                    onBlur={form2.handleBlur}
-                                    className={checkIputHasError('anoVencimento') ? 'error' : ''} 
-                                    />
-                                </div>
-                            </div>
-                            
-                        <S.ButtonCheckout type="submit" onClick={finalizarPagamento}>Finalizar pagamento</S.ButtonCheckout>
-                        <S.ButtonCheckout  onClick={voltaEndereco}>Voltar para a edição de endereço</S.ButtonCheckout>
-                        </S.SidePagamento>
-                </S.PagamentoContainer>
-            
-            </form>            
-            </>   
-            }  
-             </>
-             )}
-            
+                    <>            
+                        <S.PagamentoContainer>
+                                <S.OverlayCheckout />
+                                <S.SidePagamento>
+                                <h4>Pagamento - Valor a pagar R$ {parseToBrl(precoTotal(items))}</h4>                    
+                                <div className='nome-cartao'>
+                                        <label htmlFor="nameCard">Nome no cartão</label>
+                                        <input 
+                                        type="text" 
+                                        name='nameCard' 
+                                        id='nameCard'
+                                        value={form.values.nameCard}
+                                        onChange={form.handleChange}
+                                        onBlur={form.handleBlur}
+                                        className={checkIputHasError('nameCard') ? 'error' : ''}
+                                        />  
+                                    </div> 
+                                    <div className='campo-numero'>
+                                        <div className='numero-cartao'>
+                                            <label htmlFor="numeroCard" >Número do Cartão</label>
+                                            <InputMask 
+                                            mask='9999.9999.9999.9999' 
+                                            type="text" 
+                                            name='numeroCard' 
+                                            id='numeroCard'
+                                            value={form.values.numeroCard}
+                                            onChange={form.handleChange}
+                                            onBlur={form.handleBlur}
+                                            //className={checkIputHasError('numeroCard') ? 'error' : ''}
+                                            />
+                                        </div>
+                                        <div className="cvv-cartao" >
+                                            <label htmlFor="cvv">CVV</label>
+                                            <InputMask 
+                                            mask='999' 
+                                            type="text" 
+                                            name='cvv' 
+                                            id='cvv'
+                                            value={form.values.cvv}
+                                            onChange={form.handleChange}
+                                            onBlur={form.handleBlur}
+                                            //className={checkIputHasError('cvv') ? 'error' : ''}
+                                            />
+                                        </div>
+                                        
+                                    </div>
+                                    <div className='data-cartao'>
+                                        <div >
+                                            <label htmlFor="mesVencimento">Mês de vencimento</label>
+                                            <InputMask 
+                                            mask='99' 
+                                            type="text" 
+                                            name='mesVencimento' 
+                                            id='mesVencimento'
+                                            value={form.values.mesVencimento}
+                                            onChange={form.handleChange}
+                                            onBlur={form.handleBlur}
+                                            //className={checkIputHasError('mesVencimento') ? 'error' : ''}
+                                            />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="anoVencimento">Ano de vencimento</label>
+                                            <InputMask 
+                                            mask='99' 
+                                            type="text" 
+                                            name='anoVencimento' 
+                                            id='anoVencimento'
+                                            value={form.values.anoVencimento}
+                                            onChange={form.handleChange}
+                                            onBlur={form.handleBlur}
+                                            className={checkIputHasError('anoVencimento') ? 'error' : ''} 
+                                            />
+                                        </div>
+                                    </div>
+                                    
+                                <S.ButtonCheckout type="submit" onClick={finalizarPagamento}>Finalizar pagamento</S.ButtonCheckout>
+                                <S.ButtonCheckout  onClick={voltaEndereco}>Voltar para a edição de endereço</S.ButtonCheckout>
+                                </S.SidePagamento>
+                        </S.PagamentoContainer>  
+                    </>   
+                }  
         </>
+             )}      
+             </div>            
+    </>
 )}
 
 return <></>

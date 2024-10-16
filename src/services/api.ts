@@ -8,7 +8,7 @@ type Produto = {
 
 type PurchasePayload = {
     products: Produto[],
-    delivery?: {
+    delivery: {
         receiver: string
         address: {
             description: string,
@@ -18,7 +18,7 @@ type PurchasePayload = {
             complement: string
         }
     },
-    payment?: {
+    payment: {
         card: {
             name: string
             number: string
